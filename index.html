@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner, Not Replacement</title>
+
+    <!-- Fonts: Pixelify Sans (pixel display), Sora (statements), IBM Plex Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400..700&family=Sora:wght@500;600;700&display=swap">
+
+    <style>
+        /* ===========================================
+           THEME TOKENS — change these to restyle the deck
+           =========================================== */
+        :root {
+            --blue: #1B1BF5;        /* electric blue: blue slides, accent on light */
+            --blue-deep: #0B0BA8;
+            --lav: #8C8CF6;         /* soft blue pixel tone */
+            --yellow: #E4EA22;      /* acid yellow: accent on blue + dark */
+            --yellow-soft: #F0F2A6;
+            --olive: #B9BC3A;
+            --paper: #FBFBF4;       /* light slide background */
+            --ink: #111111;         /* dark slides + main text */
+            --ink-2: #222222;
+            --muted: #55554C;       /* secondary text on light */
+            --muted-dark: #CFCFC6;  /* secondary text on dark */
+            --muted-blue: #D9D9FF;  /* secondary text on blue */
+
+            --f-pixel: 'Pixelify Sans', sans-serif;
+            --f-head: 'Sora', sans-serif;
+            --f-body: 'IBM Plex Sans', sans-serif;
+
+            --cell: 64px;           /* pixel grid unit (stage = 30 × 17 cells) */
+            --pad-x: 128px;
+            --enter: 0.28s;         /* entrance delay so animations start as the transition clears */
+
+            --stage-bg: #050512;
+            --slide-bg: var(--paper);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           (full contents of frontend-slides viewport-base.css)
+           =========================================== */
+        html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg, #000); }
+        .deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg, #000); }
+        .deck-stage {
+            position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+            overflow: hidden; transform-origin: 0 0; background: var(--slide-bg, #fff);
+        }
+        .slide {
+            position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden;
+            display: block; visibility: hidden; opacity: 0; pointer-events: none;
+            background: var(--slide-bg, #fff);
+        }
+        .slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+        img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+        .deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; }
+        @media print {
+            html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+            .deck-viewport { position: static; overflow: visible; background: #fff; }
+            .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+            .slide {
+                position: relative; display: block !important; visibility: visible !important;
+                opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px;
+                break-after: page; page-break-after: always;
+            }
+            .slide:last-child { break-after: auto; page-break-after: auto; }
+            .deck-controls { display: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+        }
+
+        /* ===========================================
+           SLIDE THEMES — light / blue / dark, all on a 64px pixel grid
+           =========================================== */
+        .slide {
+            font-family: var(--f-body); font-size: 32px; line-height: 1.4;
+            color: var(--ink); background-color: var(--paper);
+            background-image:
+                linear-gradient(rgba(27, 27, 245, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(27, 27, 245, 0.06) 1px, transparent 1px);
+            background-size: var(--cell) var(--cell);
+            font-variant-numeric: lining-nums;
+            transition: none;
+        }
+        .slide.blue {
+            color: #fff; background-color: var(--blue);
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+        }
+        .slide.dark {
+            color: #fff; background-color: var(--ink);
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        ::selection { background: var(--yellow); color: var(--ink); }
+
+        /* Title — pixel face, top left, with a two-pixel mark */
+        .title {
+            position: absolute; top: 84px; left: var(--pad-x); right: var(--pad-x); z-index: 3;
+            font-family: var(--f-pixel); font-weight: 600; font-size: 66px; line-height: 1.04;
+            letter-spacing: 0; text-wrap: balance;
+            clip-path: inset(-20px 100% -20px -20px);
+            transition: clip-path 0.5s steps(9, end) var(--enter);
+        }
+        .slide.visible .title { clip-path: inset(-20px -20px -20px -20px); }
+        .title::before {
+            content: ''; display: block; width: 20px; height: 20px; margin-bottom: 26px;
+            background: var(--yellow); box-shadow: 20px 0 0 var(--blue);
+        }
+        .blue .title::before { box-shadow: 20px 0 0 #fff; }
+        .title .sub { display: block; color: var(--blue); }
+        .blue .title .sub, .dark .title .sub { color: var(--yellow); }
+
+        .body { position: absolute; left: var(--pad-x); right: var(--pad-x); top: 296px; bottom: 150px; z-index: 3; }
+
+        /* Source line — small, bottom left; right side kept free for pixel clusters */
+        .src {
+            position: absolute; left: var(--pad-x); right: 520px; bottom: 46px; z-index: 3;
+            padding-top: 16px; border-top: 1px solid rgba(17, 17, 17, 0.18);
+            font-size: 21px; line-height: 1.35; color: var(--muted);
+        }
+        .dark .src, .blue .src { border-top-color: rgba(255, 255, 255, 0.22); color: var(--muted-dark); }
+
+        /* Shared type roles */
+        .num {
+            font-family: var(--f-pixel); font-weight: 700; line-height: 0.9; letter-spacing: -0.01em;
+            color: var(--blue); white-space: nowrap;
+        }
+        .dark .num, .blue .num { color: var(--yellow); }
+        .num small { font-family: var(--f-head); font-weight: 600; font-size: 34px; letter-spacing: 0; margin-right: 14px; vertical-align: 0.2em; color: inherit; }
+        .label { font-family: var(--f-pixel); font-weight: 600; font-size: 32px; line-height: 1.15; margin-bottom: 28px; color: var(--blue); }
+        .dark .label, .blue .label { color: var(--yellow); }
+        .muted { color: var(--muted); }
+        .dark .muted { color: var(--muted-dark); }
+        .blue .muted { color: var(--muted-blue); }
+        .statement {
+            font-family: var(--f-head); font-weight: 600; font-size: 40px; line-height: 1.24;
+            letter-spacing: -0.015em; text-wrap: balance;
+        }
+        .statement.rule { padding-top: 32px; border-top: 3px solid var(--ink); }
+        .dark .statement.rule, .blue .statement.rule { border-top-color: var(--yellow); }
+        b, strong { font-weight: 600; }
+        .nowrap { white-space: nowrap; }
+
+        /* ===========================================
+           CLICK REVEALS — pixel wipe, one point per click / arrow
+           =========================================== */
+        [data-step] {
+            visibility: hidden; opacity: 0;
+            clip-path: inset(-30px 100% -30px -30px);
+            transition: clip-path 0.42s steps(7, end), opacity 0s linear 0.42s, visibility 0s linear 0.42s;
+        }
+        [data-step].in {
+            visibility: visible; opacity: 1;
+            clip-path: inset(-30px -30px -30px -30px);
+            transition: clip-path 0.42s steps(7, end), opacity 0s, visibility 0s;
+        }
+
+        /* Proportional bars that fill in pixel steps (width = the stated percentage) */
+        .bar { height: 32px; position: relative; overflow: hidden;
+               background-color: rgba(27, 27, 245, 0.08);
+               background-image: linear-gradient(90deg, transparent 31px, var(--paper) 31px);
+               background-size: 32px 32px; }
+        .dark .bar { background-color: rgba(255, 255, 255, 0.10); background-image: linear-gradient(90deg, transparent 31px, var(--ink) 31px); }
+        .bar i {
+            position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--blue);
+            transition: width 1s steps(14, end) 0.25s;
+        }
+        .dark .bar i { background: var(--yellow); }
+        .in .bar i { width: var(--w); }
+
+        /* ===========================================
+           PIXEL DECOR — generated clusters + photo dissolve masks
+           =========================================== */
+        .px { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+        .px i { position: absolute; width: var(--cell); height: var(--cell); transform: scale(0);
+                transition: transform 0.24s steps(3, end); }
+        .slide.visible .px i { transform: scale(1); transition-delay: calc(var(--enter) + var(--d)); }
+
+        .photo { position: absolute; overflow: hidden; z-index: 2; background: var(--ink); }
+        .photo img { display: block; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
+        .pxmask { position: absolute; inset: 0; pointer-events: none; }
+        .pxmask i { position: absolute; width: var(--cell); height: var(--cell); opacity: 1; transition: opacity 0s linear 0s; }
+        .photo.rev .pxmask i { opacity: 0; transition-delay: var(--d); }
+        .credit {
+            position: absolute; right: 0; bottom: 0; z-index: 2;
+            padding: 6px 12px; font: 500 15px/1.3 var(--f-body);
+            background: rgba(17, 17, 17, 0.74); color: #fff;
+        }
+
+        /* Full-bleed background photo under a dark shade */
+        .bgphoto { position: absolute; inset: 0; z-index: 0; }
+        .bgphoto img { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; filter: grayscale(0.35); }
+        .bgphoto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 10, 22, 0.94) 0%, rgba(10, 10, 22, 0.86) 55%, rgba(10, 10, 22, 0.72) 100%); }
+        .bgphoto .credit { right: 24px; bottom: 20px; z-index: 3; }
+
+        /* ===========================================
+           S1 — COVER (blue)
+           =========================================== */
+        .cover-title {
+            position: absolute; left: var(--pad-x); top: 246px; width: 1040px; z-index: 3;
+            font-family: var(--f-pixel); font-weight: 700; font-size: 112px; line-height: 1;
+            clip-path: inset(-20px 100% -20px -20px); transition: clip-path 0.7s steps(12, end) var(--enter);
+        }
+        .s1.visible .cover-title { clip-path: inset(-20px -20px -20px -20px); }
+        .cover-title .y { display: block; color: var(--yellow); }
+        .cover-sub { position: absolute; left: var(--pad-x); top: 504px; width: 900px; z-index: 3; font-size: 40px; line-height: 1.25; font-weight: 500; text-wrap: balance; }
+        .cover-meta {
+            position: absolute; left: var(--pad-x); width: 960px; bottom: 96px; z-index: 3;
+            padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.35);
+            font-size: 26px; line-height: 1.5;
+        }
+        .cover-meta .who { font-weight: 600; }
+        .s1 .photo { right: var(--pad-x); top: 192px; width: 576px; height: 704px; }
+
+        /* ===========================================
+           S2 — WHY THIS MATTERS (photo strip right)
+           =========================================== */
+        .strip-r { top: 0; right: 0; width: 512px; height: 1080px; }
+        .s2 .body, .s15 .body { right: 704px; }
+        .s2 .src { right: 704px; }
+        .s2 .hero { display: grid; grid-template-columns: 470px 1fr; gap: 40px; align-items: center; }
+        .s2 .hero .num { font-size: 250px; }
+        .s2 .lead { font-size: 40px; line-height: 1.22; font-weight: 500; text-wrap: balance; }
+        .s2 .lead + p { margin-top: 18px; font-size: 28px; }
+        .s2 .statement { margin-top: 56px; }
+
+        /* ===========================================
+           S3 — RESEARCH QUESTION (blue)
+           =========================================== */
+        .s3 .body { top: 280px; right: 260px; }
+        .s3 .q { font-family: var(--f-head); font-weight: 500; font-size: 46px; line-height: 1.3; letter-spacing: -0.01em; }
+        .s3 .thesis { margin-top: 60px; display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: start; }
+        .s3 .thesis .label { font-size: 36px; margin-top: 4px; }
+        .s3 .thesis p:last-child { font-family: var(--f-head); font-weight: 600; font-size: 40px; line-height: 1.26; color: var(--yellow); }
+
+        /* ===========================================
+           S4 — HOW I STUDIED IT
+           =========================================== */
+        .cards4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+        .card { background: #fff; padding: 40px 38px 46px; min-height: 380px; box-shadow: inset 0 0 0 2px rgba(17, 17, 17, 0.10); position: relative; }
+        .card::before { content: ''; display: block; width: 24px; height: 24px; background: var(--yellow); margin-bottom: 26px; }
+        .card:nth-child(even)::before { background: var(--blue); }
+        .card h3 { font-family: var(--f-pixel); font-weight: 600; font-size: 44px; line-height: 1.05; margin-bottom: 18px; color: var(--blue); }
+        .card p { font-size: 31px; line-height: 1.36; }
+        .s4 .note { margin-top: 60px; font-size: 36px; line-height: 1.4; max-width: 1560px; }
+
+        /* ===========================================
+           S5 — LENS AND SCOPE
+           =========================================== */
+        .s5 .cols { display: grid; grid-template-columns: 1fr 1.25fr; gap: 96px; }
+        .s5 h3 { font-family: var(--f-pixel); font-weight: 600; font-size: 48px; margin-bottom: 26px; color: var(--blue); }
+        .s5 .lens p { font-size: 38px; line-height: 1.38; }
+        .scope-row { display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: start; padding: 28px 0; border-top: 1px solid rgba(17, 17, 17, 0.18); }
+        .scope-row:last-child { border-bottom: 1px solid rgba(17, 17, 17, 0.18); }
+        .tag { font-family: var(--f-pixel); font-weight: 700; font-size: 30px; text-align: center; padding: 8px 0; margin-top: 4px; }
+        .tag.in-tag { background: var(--yellow); color: var(--ink); }
+        .tag.out-tag { box-shadow: inset 0 0 0 3px var(--ink); }
+        .scope-row p { font-size: 32px; line-height: 1.4; }
+
+        /* ===========================================
+           S6 — CONNECTIONS TABLE
+           =========================================== */
+        .s6 .body { top: 280px; }
+        .conn { width: 100%; border-collapse: collapse; }
+        .conn td { padding: 22px 0; border-top: 1px solid rgba(17, 17, 17, 0.18); vertical-align: top; font-size: 29px; line-height: 1.36; }
+        .conn tr:last-child td { border-bottom: 1px solid rgba(17, 17, 17, 0.18); }
+        .conn td.field { width: 440px; padding-right: 48px; font-family: var(--f-pixel); font-weight: 600; font-size: 32px; line-height: 1.15; color: var(--blue); }
+        .conn .hl { font-weight: 700; color: var(--blue); }
+
+        /* ===========================================
+           S7 — TIMELINE WITH PHOTOS
+           =========================================== */
+        .s7 .body { top: 270px; }
+        .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+        .tl-item .photo { position: relative; height: 200px; margin-bottom: 22px; }
+        .tl-item .num { font-size: 84px; margin-bottom: 12px; }
+        .tl-item h3 { font-family: var(--f-head); font-weight: 700; font-size: 32px; margin-bottom: 8px; letter-spacing: -0.01em; }
+        .tl-item p { font-size: 27px; line-height: 1.36; }
+        .s7 .statement { margin-top: 36px; font-size: 36px; }
+
+        /* ===========================================
+           S8 — DO DOCTORS USE AI?
+           =========================================== */
+        .s8 .body { top: 340px; }
+        .s8 .split { display: grid; grid-template-columns: 81fr 19fr; }
+        .s8 .stat .num { font-size: 172px; }
+        .s8 .stat.no .num { color: var(--ink); }
+        .s8 .stat p { font-size: 32px; margin-top: 30px; max-width: 760px; }
+        .s8 .stat.no { padding-left: 32px; }
+        .s8 .stat.no p { max-width: 330px; }
+        .s8 .split-bar { position: relative; height: 32px; margin-top: 34px; }
+        .s8 .split-bar .yes { position: absolute; left: 0; top: 0; bottom: 0; width: 81%; background: var(--blue); }
+        .s8 .split-bar .noseg { position: absolute; right: 0; top: 0; bottom: 0; width: calc(19% - 8px); background: var(--yellow); }
+        .s8 .ama { margin-top: 48px; display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: baseline; }
+        .s8 .ama .label { margin: 0; font-size: 36px; }
+        .s8 .ama .quote { font-family: var(--f-head); font-weight: 700; font-size: 54px; line-height: 1.1; letter-spacing: -0.02em; }
+        .s8 .ama .quote + p { margin-top: 12px; font-size: 32px; }
+
+        /* ===========================================
+           S9 — MASAI (stat rows + photo box)
+           =========================================== */
+        .s9 .body { right: 752px; }
+        .s9 .photo { right: var(--pad-x); top: 320px; width: 600px; height: 400px; }
+        .srows { display: flex; flex-direction: column; gap: 30px; }
+        .srow { display: grid; grid-template-columns: 500px 1fr; gap: 36px; align-items: center; padding-top: 22px; border-top: 3px solid var(--ink); }
+        .srow .num { font-size: 112px; }
+        .srow p { font-size: 30px; line-height: 1.36; }
+        .s9 .label { margin-bottom: 14px; }
+
+        /* ===========================================
+           S10 / S12 — BAR ROWS
+           =========================================== */
+        .rows { display: flex; flex-direction: column; gap: 36px; }
+        .row { display: grid; grid-template-columns: 480px 1fr; gap: 56px; align-items: end; }
+        .row .num { font-size: 128px; }
+        .row .label { margin-bottom: 26px; }
+        .row p { font-size: 31px; line-height: 1.36; margin-bottom: 20px; }
+        .rows + .statement { margin-top: 44px; }
+
+        /* ===========================================
+           S11 — PATIENT PRIVACY (dark + photo)
+           =========================================== */
+        .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+        .three > div { background: rgba(17, 17, 17, 0.88); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); padding: 44px 44px 52px; min-height: 470px; }
+        .three .num { font-size: 110px; margin-bottom: 30px; }
+        .three h3 { font-family: var(--f-head); font-weight: 700; font-size: 38px; margin-bottom: 16px; }
+        .three p { font-size: 30px; line-height: 1.4; color: var(--muted-dark); }
+
+        /* ===========================================
+           S13 — WILL AI REPLACE RADIOLOGISTS?
+           =========================================== */
+        .s13 .body { top: 284px; }
+        .s13 .cols { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 60px; }
+        .s13 .cols > div { padding-top: 26px; border-top: 3px solid var(--ink); }
+        .s13 .portrait { display: grid; grid-template-columns: 180px 1fr; gap: 26px; align-items: end; margin-bottom: 20px; }
+        .s13 .portrait .photo { position: relative; width: 180px; height: 180px; }
+        .s13 .portrait .credit { font-size: 11px; padding: 3px 6px; position: static; display: block; background: none; color: var(--muted); grid-column: 1 / -1; margin-top: -14px; }
+        .s13 .quote { font-family: var(--f-head); font-weight: 700; font-size: 40px; line-height: 1.16; letter-spacing: -0.02em; margin-bottom: 20px; }
+        .s13 .num { font-size: 150px; margin-bottom: 24px; }
+        .s13 p { font-size: 30px; line-height: 1.38; }
+        .s13 .today { font-size: 34px; line-height: 1.35; }
+
+        /* ===========================================
+           S14 — JOBS (dark + photo)
+           =========================================== */
+        .s14 .body { top: 290px; right: 300px; }
+        .s14 .cols { display: grid; grid-template-columns: 1fr 1.45fr; gap: 72px; }
+        .s14 .cols > div { padding-top: 26px; border-top: 3px solid var(--yellow); }
+        .s14 .num { font-size: 132px; margin-bottom: 24px; }
+        .s14 p { font-size: 30px; line-height: 1.38; }
+        .s14 .statement { margin-top: 56px; font-size: 38px; }
+
+        /* ===========================================
+           S15 — FOUR RULES (photo strip right)
+           =========================================== */
+        .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 48px; }
+        .rule-item { display: grid; grid-template-columns: 76px 1fr; gap: 18px; align-items: start; padding: 22px 0; border-top: 3px solid var(--ink); }
+        .rule-item .num { font-size: 84px; }
+        .rule-item p { font-family: var(--f-head); font-weight: 600; font-size: 33px; line-height: 1.22; letter-spacing: -0.01em; padding-top: 6px; }
+        .rule-item p span { display: block; margin-top: 8px; font-family: var(--f-body); font-weight: 400; font-size: 27px; line-height: 1.36; letter-spacing: 0; color: var(--muted); }
+        .s15 .final {
+            margin-top: 40px; background: var(--yellow); color: var(--ink);
+            padding: 30px 40px; font-family: var(--f-pixel); font-weight: 700; font-size: 54px; line-height: 1.05;
+        }
+
+        /* ===========================================
+           S16 — CONCLUSION (blue)
+           =========================================== */
+        .s16 .big {
+            position: absolute; left: var(--pad-x); top: 340px; width: 1400px; z-index: 3;
+            font-family: var(--f-pixel); font-weight: 700; font-size: 136px; line-height: 1;
+            clip-path: inset(-20px 100% -20px -20px); transition: clip-path 0.8s steps(14, end) calc(var(--enter) + 0.2s);
+        }
+        .s16.visible .big { clip-path: inset(-20px -20px -20px -20px); }
+        .s16 .big .y { display: block; color: var(--yellow); }
+        .s16 .after { position: absolute; left: var(--pad-x); top: 660px; width: 1100px; z-index: 3; font-size: 46px; line-height: 1.28; font-weight: 500; text-wrap: balance; }
+
+        /* ===========================================
+           S17 — FINAL REFLECTION (dark)
+           =========================================== */
+        .reflect { list-style: none; display: flex; flex-direction: column; }
+        .reflect li {
+            display: grid; grid-template-columns: 56px 1fr; gap: 26px; align-items: baseline;
+            padding: 32px 0; border-top: 1px solid rgba(255, 255, 255, 0.18);
+            font-family: var(--f-head); font-weight: 500; font-size: 40px; line-height: 1.3; letter-spacing: -0.01em;
+        }
+        .reflect li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+        .reflect li::before { content: ''; width: 28px; height: 28px; background: var(--yellow); box-shadow: 14px 14px 0 -7px var(--blue); }
+
+        /* ===========================================
+           S18 — SOURCES
+           =========================================== */
+        .s18 .body { top: 280px; bottom: 70px; right: 260px; }
+        .refs { list-style: none; columns: 2; column-gap: 80px; counter-reset: ref; }
+        .refs li { counter-increment: ref; break-inside: avoid; position: relative; padding: 0 0 24px 58px; font-size: 25px; line-height: 1.42; }
+        .refs li::before { content: counter(ref); position: absolute; left: 0; top: -2px; font-family: var(--f-pixel); font-weight: 700; font-size: 30px; color: var(--blue); }
+
+        /* ===========================================
+           PIXEL SLIDE TRANSITION (inside the stage, above slides)
+           =========================================== */
+        #pxwipe { position: absolute; inset: 0; z-index: 60; pointer-events: none; }
+        #pxwipe i { position: absolute; width: var(--cell); height: var(--cell); opacity: 0; transition: opacity 0s linear var(--d); }
+        #pxwipe.on i { opacity: 1; }
+
+        /* ===========================================
+           DECK CHROME (outside the stage)
+           =========================================== */
+        .progress { position: fixed; left: 0; bottom: 0; height: 6px; width: 0; z-index: 1000;
+                    background-image: linear-gradient(90deg, var(--yellow) 0 12px, transparent 12px 16px); background-size: 16px 6px;
+                    transition: width 0.4s steps(10, end); }
+        .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; }
+        .edit-toggle {
+            position: fixed; top: 16px; left: 16px; z-index: 10001;
+            padding: 10px 16px; border: none; background: var(--yellow); color: var(--ink);
+            font: 600 15px/1 var(--f-body); cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+        .edit-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        body.editing .slide.active p:hover, body.editing .slide.active h1:hover, body.editing .slide.active h2:hover,
+        body.editing .slide.active h3:hover, body.editing .slide.active li:hover, body.editing .slide.active td:hover {
+            outline: 2px dashed var(--yellow); outline-offset: 6px;
+        }
+
+        /* Reduced motion: no pixel choreography, just show things */
+        @media (prefers-reduced-motion: reduce) {
+            #pxwipe { display: none; }
+            .pxmask { display: none; }
+            .title, .cover-title, .s16 .big { clip-path: none !important; }
+            .px i { transform: none !important; }
+        }
+
+        /* Print / PDF: everything visible, no animation layers */
+        @media print {
+            [data-step] { opacity: 1 !important; visibility: visible !important; clip-path: none !important; }
+            .bar i { width: var(--w) !important; }
+            .title, .cover-title, .s16 .big { clip-path: none !important; }
+            .px i { transform: none !important; }
+            .pxmask, #pxwipe, .progress, .edit-hotzone, .edit-toggle { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+<!-- impeccable-disable cramped-padding: each .slide is the full-bleed 1920×1080 canvas; content is inset 128px by absolutely positioned children -->
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage">
+
+    <!-- === 1 COVER (blue) === -->
+    <section class="slide s1 blue active" aria-label="Cover" data-px='[[0,0,5,3,0.95,"tl"],[22,0,8,3,0.9,"tr"]]'>
+        <h1 class="cover-title">Partner, <span class="y">Not Replacement</span></h1>
+        <p class="cover-sub">Artificial Intelligence in Modern Healthcare</p>
+        <div class="photo"><img src="images/cover.jpg" alt="A doctor shows a patient a CT scan on a screen"><span class="credit">Photo: M Joko Apriyo Putro, CC BY 4.0, Wikimedia Commons</span></div>
+        <div class="cover-meta">
+            <p class="who">Sovanndaratip Chan · Professor Sharon Hill</p>
+            <p>IDS 2891 · Research Artifact: Final Project</p>
+        </div>
+    </section>
+
+    <!-- === 2 WHY THIS MATTERS === -->
+    <section class="slide s2" aria-label="Why this matters" data-px='[[19,0,3,17,0.55,"r"]]'>
+        <h2 class="title">Why this matters</h2>
+        <div class="body">
+            <div class="hero">
+                <div class="num cnt">81%</div>
+                <div>
+                    <p class="lead">of surveyed US physicians use AI at work in 2026.</p>
+                    <p class="muted">More than double the share in 2023, when the AMA first asked.</p>
+                </div>
+            </div>
+            <p class="statement rule">The question is no longer whether AI is in the exam room. It is who stays in charge.</p>
+        </div>
+        <div class="photo strip-r"><img src="images/s2-doctor-computer.jpg" alt="A doctor uses a computer during a consultation"><span class="credit">Photo: Shixart1985, CC BY 2.0, Wikimedia Commons</span></div>
+        <p class="src">Source: AMA 2026 Physician Survey on Augmented Intelligence (nearly 1,700 doctors)</p>
+    </section>
+
+    <!-- === 3 RESEARCH QUESTION (blue) === -->
+    <section class="slide s3 blue" aria-label="Research question" data-px='[[24,0,6,4,0.9,"tr"],[25,12,5,5,0.9,"br"]]'>
+        <h2 class="title">Research question</h2>
+        <div class="body">
+            <p class="q">To what extent can AI replace clinicians in diagnostic radiology and clinical decision-making, and does a hybrid clinician-AI model improve outcomes while addressing algorithmic bias, data privacy, and workforce shortage?</p>
+            <div class="thesis">
+                <p class="label">THESIS</p>
+                <p>Partner, not replacement: a clinician working with AI, under clear rules, can do better than standard care in some settings.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === 4 HOW I STUDIED IT === -->
+    <section class="slide s4" aria-label="How I studied it" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">How I studied it</h2>
+        <div class="body">
+            <div class="cards4">
+                <div class="card"><h3>History</h3><p>Why early systems like MYCIN and IBM Watson fell short</p></div>
+                <div class="card"><h3>Evidence</h3><p>What happens when clinicians and AI work together</p></div>
+                <div class="card"><h3>Risks</h3><p>Bias, patient privacy, and who is accountable</p></div>
+                <div class="card"><h3>Rules</h3><p>AMA and WHO guidance on using AI safely</p></div>
+            </div>
+            <p class="note">I compared studies, trials, and policy documents. I checked key claims against their original sources and reviewed my plan with my librarian.</p>
+        </div>
+    </section>
+
+    <!-- === 5 LENS AND SCOPE === -->
+    <section class="slide s5" aria-label="Lens and scope" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">Lens and scope</h2>
+        <div class="body">
+            <div class="cols">
+                <div class="lens">
+                    <h3>My lens</h3>
+                    <p>Critical and evidence-based. I weigh benefits against risks and ask who is accountable when AI is wrong.</p>
+                </div>
+                <div>
+                    <h3>My scope</h3>
+                    <div class="scope-row"><span class="tag in-tag">IN</span><p>Diagnostic radiology and clinical decision-making, from the 1970s to today. Mostly US data, plus the MASAI trial from Sweden.</p></div>
+                    <div class="scope-row"><span class="tag out-tag">OUT</span><p>Drug discovery, surgical robots, and detailed laws outside the US.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === 6 CONNECTIONS ACROSS FIELDS === -->
+    <section class="slide s6" aria-label="Connections across fields" data-px='[[25,0,5,3,0.85,"tr"]]'>
+        <h2 class="title">Connections across fields</h2>
+        <div class="body">
+            <table class="conn">
+                <tr><td class="field">Medicine and radiology</td><td>AI-supported mammography reading cut radiologists' reading workload by <span class="hl">44%</span>.</td></tr>
+                <tr><td class="field">Data and computer science</td><td>An algorithm that used cost as a stand-in for illness underestimated Black patients' needs.</td></tr>
+                <tr><td class="field">Law and policy</td><td>AMA Policy H-480.939 says developers of autonomous clinical AI should accept liability for failures.</td></tr>
+                <tr><td class="field">Ethics</td><td>WHO's first principle for health AI: protect human autonomy.</td></tr>
+                <tr><td class="field">Public health</td><td>Radiologist supply is projected to grow <span class="hl">25.7–40.3%</span> by 2055, but researchers say the gap with demand will persist without more residency positions.</td></tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- === 7 AI ALMOST DIED IN MEDICINE [CLICKS] === -->
+    <section class="slide s7" aria-label="AI almost died in medicine" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <h2 class="title">AI almost died in medicine</h2>
+        <div class="body">
+            <div class="timeline">
+                <div class="tl-item" data-step="1">
+                    <div class="photo"><img src="images/s7-1970s.jpg" alt="A PDP-10 computer at the Stanford AI Lab, 1979"><span class="credit">Photo: Rodney Brooks, GFDL 1.3</span></div>
+                    <div class="num">1970s</div>
+                    <h3>MYCIN</h3>
+                    <p>A Stanford program suggested antibiotics using hand-written rules. It never became part of everyday care.</p>
+                </div>
+                <div class="tl-item" data-step="2">
+                    <div class="photo"><img src="images/s7-2010s.jpg" alt="IBM Watson Jeopardy! stage replica"><span class="credit">Photo: Atomic Taco, CC BY-SA 2.0</span></div>
+                    <div class="num">2010s</div>
+                    <h3>Watson hype</h3>
+                    <p>IBM promised Watson would help fight cancer. One hospital reportedly spent about <b>$62 million</b> on a project that was shelved.</p>
+                </div>
+                <div class="tl-item" data-step="3">
+                    <div class="photo"><img src="images/s7-2022.jpg" alt="IBM headquarters in Armonk, New York"><span class="credit">Photo: Treesmittenex, CC BY-SA 4.0</span></div>
+                    <div class="num">2022</div>
+                    <h3>The fall</h3>
+                    <p>IBM sold off its Watson Health business.</p>
+                </div>
+            </div>
+            <p class="statement rule" data-step="4">AI nearly died because it promised too much. That is why this project says: partner, not replacement.</p>
+        </div>
+        <p class="src">Sources: The Register; Fierce Healthcare</p>
+    </section>
+
+    <!-- === 8 DO DOCTORS USE AI? [CLICKS] === -->
+    <section class="slide s8" aria-label="Do doctors use AI?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">Do doctors use AI? <span class="sub">Not all of them</span></h2>
+        <div class="body">
+            <div class="split">
+                <div class="stat" data-step="1"><div class="num cnt">81%</div><p>of surveyed US doctors use AI at work.</p></div>
+                <div class="stat no" data-step="2"><div class="num cnt">19%</div><p>do not. Use is common, but not universal.</p></div>
+            </div>
+            <div class="split-bar" aria-hidden="true">
+                <span class="yes" data-step="1"></span>
+                <span class="noseg" data-step="2"></span>
+            </div>
+            <div class="ama" data-step="3">
+                <p class="label">AMA view</p>
+                <div>
+                    <p class="quote">“AI assists. The doctor decides.”</p>
+                    <p>The AMA calls it augmented intelligence.</p>
+                </div>
+            </div>
+        </div>
+        <p class="src">Sources: AMA 2026 survey; AMA Policy H-480.939</p>
+    </section>
+
+    <!-- === 9 HOW ACCURATE IS IT? [CLICKS] === -->
+    <section class="slide s9" aria-label="How accurate is it?" data-px='[[25,0,5,4,0.85,"tr"],[26,13,4,4,0.85,"br"]]'>
+        <h2 class="title">How accurate is it? <span class="sub">AI can really help</span></h2>
+        <div class="body">
+            <p class="label" data-step="1">MASAI trial</p>
+            <div class="srows">
+                <div class="srow" data-step="1"><div class="num cnt">106,000</div><p>women had breast cancer screening supported by AI.</p></div>
+                <div class="srow" data-step="2"><div class="num cnt">12%</div><p>fewer interval cancers (cancers that appear between screenings).</p></div>
+                <div class="srow" data-step="3"><div class="num cnt">44%</div><p>less reading workload for radiologists. They still read the scans.</p></div>
+            </div>
+        </div>
+        <div class="photo"><img src="images/s9-mammogram.jpg" alt="A woman undergoing a mammogram"><span class="credit">Photo: National Cancer Institute, public domain</span></div>
+        <p class="src">Source: MASAI trial, The Lancet (2026)</p>
+    </section>
+
+    <!-- === 10 BUT ACCURACY DEPENDS ON THE DATA (dark) [CLICKS] === -->
+    <section class="slide s10 dark" aria-label="But accuracy depends on the data" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">But accuracy depends on the data</h2>
+        <div class="body">
+            <div class="rows">
+                <div class="row" data-step="1">
+                    <div><p class="label">Obermeyer et al., 2019</p><div class="num cnt">17.7%</div></div>
+                    <div><p>of Black patients were flagged for extra care by a hospital algorithm.</p><div class="bar"><i style="--w:17.7%"></i></div></div>
+                </div>
+                <div class="row" data-step="2">
+                    <div><p class="label">If the bias were fixed</p><div class="num cnt">46.5%</div></div>
+                    <div><p>would have been flagged.</p><div class="bar"><i style="--w:46.5%"></i></div></div>
+                </div>
+            </div>
+            <p class="statement rule" data-step="3">AI can help. AI can be biased. We need both facts.</p>
+        </div>
+        <p class="src">Source: Obermeyer et al., Science (2019)</p>
+    </section>
+
+    <!-- === 11 PATIENT PRIVACY (dark + photo) [CLICKS] === -->
+    <section class="slide s11 dark" aria-label="Patient privacy" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <div class="bgphoto"><img src="images/s11-servers.jpg" alt=""><span class="credit">Photo: BalticServers.com, CC BY-SA 3.0, Wikimedia Commons</span></div>
+        <h2 class="title">Patient privacy</h2>
+        <div class="body">
+            <div class="three">
+                <div data-step="1"><div class="num">1</div><h3>Training data</h3><p>AI learns from patient records, some of the most personal data that exist.</p></div>
+                <div data-step="2"><div class="num">2</div><h3>Leaks and sales</h3><p>If data is leaked or sold, people can be identified, and that harm cannot be undone.</p></div>
+                <div data-step="3"><div class="num">3</div><h3>Our rule</h3><p>Be open with patients about how their data is used.</p></div>
+            </div>
+        </div>
+        <p class="src">Source: WHO (2021), Ethics and Governance of Artificial Intelligence for Health</p>
+    </section>
+
+    <!-- === 12 CAN AI BE TRICKED? [CLICKS] === -->
+    <section class="slide s12" aria-label="Can AI be tricked?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">Can AI be tricked?</h2>
+        <div class="body">
+            <div class="rows">
+                <div class="row" data-step="1">
+                    <div><p class="label">First message</p><div class="num"><small>about</small><span class="cnt">35%</span></div></div>
+                    <div><p>jailbreak success in one tested model. (A jailbreak tricks an AI into breaking its own safety rules.)</p><div class="bar"><i style="--w:35%"></i></div></div>
+                </div>
+                <div class="row" data-step="2">
+                    <div><p class="label">By the fourth message</p><div class="num"><small>about</small><span class="cnt">79%</span></div></div>
+                    <div><p>in the same model.</p><div class="bar"><i style="--w:79%"></i></div></div>
+                </div>
+            </div>
+            <p class="statement rule" data-step="3">One model, not every AI. But a tricked medical AI could give unsafe advice, so a clinician must stay in the loop.</p>
+        </div>
+        <p class="src">Source: arXiv 2606.02630 (2026 preprint, not peer reviewed; one model)</p>
+    </section>
+
+    <!-- === 13 WILL AI REPLACE RADIOLOGISTS? [CLICKS] === -->
+    <section class="slide s13" aria-label="Will AI replace radiologists?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">Will AI replace radiologists?</h2>
+        <div class="body">
+            <div class="cols">
+                <div data-step="1">
+                    <div class="portrait">
+                        <div class="photo"><img src="images/s13-hinton.jpg" alt="Geoffrey Hinton, 2024"></div>
+                        <p class="label">Hinton, 2016</p>
+                        <span class="credit">Photo: Arthur Petron, CC BY-SA 4.0</span>
+                    </div>
+                    <p class="quote">“People should stop training radiologists now.”</p>
+                    <p>He said AI would outperform radiologists within five years.</p>
+                </div>
+                <div data-step="2">
+                    <p class="label">Nine years later</p>
+                    <div class="num cnt">55%</div>
+                    <p>growth in Mayo Clinic's radiology staff since 2016, to more than 400 radiologists.</p>
+                </div>
+                <div data-step="3">
+                    <p class="label">Hinton today</p>
+                    <p class="today"><b>Wrong on timing, not direction.</b> He said he spoke too broadly and meant image analysis only.</p>
+                </div>
+            </div>
+        </div>
+        <p class="src">Source: Lohr, The New York Times (May 14, 2025)</p>
+    </section>
+
+    <!-- === 14 WHAT THE NUMBERS SAY ABOUT JOBS (dark + photo) [CLICKS] === -->
+    <section class="slide s14 dark" aria-label="What the numbers say about jobs" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <div class="bgphoto"><img src="images/s14-radiologist.jpg" alt=""><span class="credit">Photo: Bill Branson, National Cancer Institute, public domain</span></div>
+        <h2 class="title">What the numbers say about jobs</h2>
+        <div class="body">
+            <div class="cols">
+                <div data-step="1">
+                    <p class="label">MASAI</p>
+                    <div class="num cnt">44%</div>
+                    <p>less reading work for radiologists. They still read the scans.</p>
+                </div>
+                <div data-step="2">
+                    <p class="label">&nbsp;</p>
+                    <div class="num">25.7–40.3%</div>
+                    <p>projected growth in radiologists treating Medicare patients by 2055, up from 37,482 in 2023.</p>
+                </div>
+            </div>
+            <p class="statement" data-step="3">Less work per scan does not mean fewer doctors. Without more residency positions, the gap between supply and demand will persist.</p>
+        </div>
+        <p class="src">Sources: MASAI trial, The Lancet (2026); Christensen et al., Journal of the American College of Radiology (2025)</p>
+    </section>
+
+    <!-- === 15 HOW TO USE AI CORRECTLY [CLICKS] === -->
+    <section class="slide s15" aria-label="How to use AI correctly" data-px='[[19,0,3,17,0.55,"r"]]'>
+        <h2 class="title">How to use AI correctly: four rules</h2>
+        <div class="body">
+            <div class="rules">
+                <div class="rule-item" data-step="1"><div class="num">1</div><p>AI proposes. The clinician decides.</p></div>
+                <div class="rule-item" data-step="2"><div class="num">2</div><p>Check the data for bias.</p></div>
+                <div class="rule-item" data-step="3"><div class="num">3</div><p>Be open with patients.</p></div>
+                <div class="rule-item" data-step="4"><div class="num">4</div><p>Make someone accountable. <span>If AI makes a mistake, a person must answer for it.</span></p></div>
+            </div>
+            <p class="final" data-step="5">We never rely on AI 100 percent.</p>
+        </div>
+        <div class="photo strip-r"><img src="images/s15-doctor-patient.jpg" alt="A doctor with a tablet talks with a patient"><span class="credit">Photo: Shixart1985, CC BY 2.0, Wikimedia Commons</span></div>
+    </section>
+
+    <!-- === 16 CONCLUSION (blue) === -->
+    <section class="slide s16 blue" aria-label="Conclusion" data-px='[[21,0,9,4,0.9,"tr"],[0,13,6,4,0.9,"bl"],[23,11,7,6,0.9,"br"]]'>
+        <h2 class="title">Conclusion</h2>
+        <p class="big">Partner, <span class="y">Not Replacement.</span></p>
+        <p class="after">AI helps doctors most when the doctor stays in charge.</p>
+    </section>
+
+    <!-- === 17 FINAL REFLECTION (dark) === -->
+    <section class="slide s17 dark" aria-label="Final reflection" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">Final reflection</h2>
+        <div class="body">
+            <ul class="reflect">
+                <li>The goal is not to choose between humans and machines. It is to design rules so they work together safely.</li>
+                <li>Strong claims need strong sources, so I narrowed “hybrid is always better” to “better in some settings.”</li>
+                <li>Early AI nearly died because it promised too much. Hype is a risk too.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- === 18 SOURCES === -->
+    <section class="slide s18" aria-label="Sources" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <h2 class="title">Sources</h2>
+        <div class="body">
+            <ol class="refs">
+                <li>AMA, 2026 Physician Survey on Augmented Intelligence.</li>
+                <li>AMA, Augmented intelligence in medicine, and Policy H-480.939.</li>
+                <li>WHO (2021), Ethics and Governance of Artificial Intelligence for Health.</li>
+                <li>Obermeyer et al. (2019), Dissecting racial bias in an algorithm used to manage the health of populations, Science 366(6464), 447–453.</li>
+                <li>MASAI trial, The Lancet (2026), DOI <span class="nowrap">10.1016/S0140-6736(25)02464-X.</span></li>
+                <li>The Register, report on IBM Watson's cancer project cost.</li>
+                <li>Fierce Healthcare, report on the sale of IBM Watson Health.</li>
+                <li>arXiv 2606.02630 (2026 preprint).</li>
+                <li>Lohr, S. (2025, May 14), The New York Times.</li>
+                <li>Christensen et al. (2025), J Am Coll Radiol 22(2), 161–169, DOI <span class="nowrap">10.1016/j.jacr.2024.10.019.</span></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Pixel transition layer (generated) -->
+    <div id="pxwipe" class="gen" aria-hidden="true"></div>
+</main>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
+
+<script>
+/* ===========================================
+   PIXEL HELPERS — seeded random so decor is the same every time
+   =========================================== */
+const CELL = 64, COLS = 30, ROWS = 17;
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const PALETTE = {
+    light: ['#1B1BF5', '#1B1BF5', '#8C8CF6', '#E4EA22', '#E4EA22', '#F0F2A6'],
+    blue:  ['#E4EA22', '#E4EA22', '#0B0BA8', '#FFFFFF', '#8C8CF6', '#B9BC3A'],
+    dark:  ['#E4EA22', '#1B1BF5', '#B9BC3A', '#8C8CF6', '#2A2A2A']
+};
+const themeOf = s => s.classList.contains('blue') ? 'blue' : s.classList.contains('dark') ? 'dark' : 'light';
+
+/* Corner clusters: [col, row, width, height, density, fade-from] */
+function buildClusters(slide, idx) {
+    const spec = slide.dataset.px ? JSON.parse(slide.dataset.px) : [];
+    if (!spec.length) return;
+    const pal = PALETTE[themeOf(slide)], rand = rng(1000 + idx * 97);
+    const layer = document.createElement('div'); layer.className = 'px gen'; layer.setAttribute('aria-hidden', 'true');
+    for (const [c0, r0, w, h, p, fade] of spec) {
+        for (let r = r0; r < r0 + h; r++) for (let c = c0; c < c0 + w; c++) {
+            const fx = (c - c0 + 0.5) / w, fy = (r - r0 + 0.5) / h;
+            const d = { tl: (fx + fy) / 2, tr: ((1 - fx) + fy) / 2, bl: (fx + (1 - fy)) / 2, br: ((1 - fx) + (1 - fy)) / 2, r: 1 - fx, l: fx }[fade];
+            if (rand() > p * (1 - d) * 1.25) continue;
+            const sq = document.createElement('i');
+            sq.style.left = c * CELL + 'px'; sq.style.top = r * CELL + 'px';
+            sq.style.background = pal[Math.floor(rand() * pal.length)];
+            sq.style.setProperty('--d', (d * 0.45 + rand() * 0.12).toFixed(3) + 's');
+            layer.appendChild(sq);
+        }
+    }
+    slide.prepend(layer);
+}
+
+/* Photo dissolve masks: cells that vanish in random order */
+function buildMask(photo, idx) {
+    const w = photo.offsetWidth, h = photo.offsetHeight; if (!w || !h) return;
+    const pal = PALETTE.light, rand = rng(5000 + idx * 31);
+    const mask = document.createElement('div'); mask.className = 'pxmask gen'; mask.setAttribute('aria-hidden', 'true');
+    for (let y = 0; y < h; y += CELL) for (let x = 0; x < w; x += CELL) {
+        const sq = document.createElement('i');
+        sq.style.left = x + 'px'; sq.style.top = y + 'px';
+        sq.style.background = pal[Math.floor(rand() * pal.length)];
+        sq.style.setProperty('--d', (0.15 + rand() * 0.75).toFixed(3) + 's');
+        mask.appendChild(sq);
+    }
+    photo.appendChild(mask);
+}
+
+/* Count-up for big numbers; the final text is always the exact original */
+function countUp(el, delay) {
+    const finalText = el.dataset.final || (el.dataset.final = el.textContent);
+    const m = finalText.match(/^(\D*?)([\d,]*\d(?:\.\d+)?)(.*)$/s);
+    if (!m || REDUCED) { el.textContent = finalText; return; }
+    const [, pre, numStr, post] = m;
+    const target = parseFloat(numStr.replace(/,/g, '')), decimals = (numStr.split('.')[1] || '').length, commas = numStr.includes(',');
+    const fmt = v => { let s = v.toFixed(decimals); if (commas) s = Number(s).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }); return pre + s + post; };
+    const token = (el._token = (el._token || 0) + 1);
+    el.textContent = fmt(0);
+    const start = performance.now() + delay * 1000, dur = 1100;
+    const tick = now => {
+        if (el._token !== token) return;
+        const t = Math.min(1, Math.max(0, (now - start) / dur));
+        const e = 1 - Math.pow(1 - t, 4);
+        el.textContent = t >= 1 ? finalText : fmt(target * e);
+        if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+}
+function resetCount(el) { el._token = (el._token || 0) + 1; if (el.dataset.final) el.textContent = el.dataset.final; }
+
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   → / Space / click: next point, then next slide (pixel transition)
+   ← : hide last point, then previous slide
+   =========================================== */
+class SlidePresentation {
+    constructor() {
+        this.slides = [...document.querySelectorAll('.slide')];
+        this.stage = document.getElementById('deckStage');
+        this.progress = document.getElementById('progress');
+        this.wipe = document.getElementById('pxwipe');
+        this.current = 0; this.revealed = 0; this.busy = false; this.wheelLock = false;
+        this.slides.forEach(buildClusters);
+        this.buildWipe();
+        this.setupStageScale();
+        this.setupKeyboardNav();
+        this.setupPointerNav();
+        const start = parseInt(location.hash.slice(1), 10);
+        // Build photo masks after layout so sizes are known
+        requestAnimationFrame(() => {
+            document.querySelectorAll('.photo').forEach(buildMask);
+            this.showSlide(Number.isFinite(start) ? start - 1 : 0, false);
+        });
+    }
+
+    setupStageScale() {
+        const scale = () => {
+            const f = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+            const x = (window.innerWidth - 1920 * f) / 2, y = (window.innerHeight - 1080 * f) / 2;
+            this.stage.style.transform = `translate(${x}px, ${y}px) scale(${f})`;
+        };
+        scale(); window.addEventListener('resize', scale);
+    }
+
+    buildWipe() {
+        for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+            const sq = document.createElement('i');
+            sq.style.left = c * CELL + 'px'; sq.style.top = r * CELL + 'px';
+            this.wipe.appendChild(sq);
+        }
+    }
+
+    stepsOf(slide) { return Math.max(0, ...[...slide.querySelectorAll('[data-step]')].map(el => +el.dataset.step)); }
+
+    /* Show/hide steps, photos, bars and counters on the current slide */
+    applySteps(entering) {
+        const slide = this.slides[this.current];
+        slide.querySelectorAll('[data-step]').forEach(el => {
+            const on = +el.dataset.step <= this.revealed, was = el.classList.contains('in');
+            el.classList.toggle('in', on);
+            if (on && !was) el.querySelectorAll('.cnt').forEach(n => countUp(n, 0.05));
+            if (!on && was) el.querySelectorAll('.cnt').forEach(resetCount);
+        });
+        slide.querySelectorAll('.photo').forEach(p => {
+            const step = p.closest('[data-step]');
+            p.classList.toggle('rev', !step || step.classList.contains('in'));
+        });
+        if (entering) slide.querySelectorAll('.cnt').forEach(n => { if (!n.closest('[data-step]')) countUp(n, 0.35); });
+    }
+
+    showSlide(index, revealAll) {
+        this.current = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((s, i) => {
+            const on = i === this.current;
+            s.classList.toggle('active', on); s.classList.toggle('visible', on);
+            if (!on) {
+                s.querySelectorAll('[data-step]').forEach(el => el.classList.remove('in'));
+                s.querySelectorAll('.photo').forEach(p => p.classList.remove('rev'));
+                s.querySelectorAll('.cnt').forEach(resetCount);
+            }
+        });
+        this.revealed = revealAll ? this.stepsOf(this.slides[this.current]) : 0;
+        this.applySteps(true);
+        this.progress.style.width = `${((this.current + 1) / this.slides.length) * 100}%`;
+        history.replaceState(null, '', '#' + (this.current + 1));
+    }
+
+    /* Pixel-mosaic transition between slides */
+    go(index, revealAll) {
+        if (index < 0 || index >= this.slides.length || index === this.current) return;
+        if (REDUCED) { this.showSlide(index, revealAll); return; }
+        if (this.busy) return;
+        this.busy = true;
+        const pal = PALETTE[themeOf(this.slides[index])].concat(['#1B1BF5', '#E4EA22']);
+        const cells = [...this.wipe.children];
+        cells.forEach(c => { c.style.background = pal[Math.floor(Math.random() * pal.length)]; c.style.setProperty('--d', (Math.random() * 0.22).toFixed(3) + 's'); });
+        this.wipe.classList.add('on');
+        setTimeout(() => {
+            this.showSlide(index, revealAll);
+            cells.forEach(c => c.style.setProperty('--d', (Math.random() * 0.26).toFixed(3) + 's'));
+            this.wipe.classList.remove('on');
+            setTimeout(() => { this.busy = false; }, 300);
+        }, 300);
+    }
+
+    next() {
+        if (this.busy) return;
+        if (this.revealed < this.stepsOf(this.slides[this.current])) { this.revealed++; this.applySteps(false); }
+        else this.go(this.current + 1, false);
+    }
+    prev() {
+        if (this.busy) return;
+        if (this.revealed > 0) { this.revealed--; this.applySteps(false); }
+        else this.go(this.current - 1, true);
+    }
+
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            if (editor.isActive) return;
+            if (['ArrowRight', 'ArrowDown', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); this.next(); }
+            else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); this.prev(); }
+            else if (e.key === 'Home') this.showSlide(0, false);
+            else if (e.key === 'End') this.showSlide(this.slides.length - 1, true);
+        });
+    }
+
+    setupPointerNav() {
+        document.querySelector('.deck-viewport').addEventListener('click', () => { if (!editor.isActive) this.next(); });
+        let x0 = 0;
+        document.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+        document.addEventListener('touchend', (e) => {
+            if (editor.isActive) return;
+            const dx = e.changedTouches[0].clientX - x0;
+            if (Math.abs(dx) > 50) dx < 0 ? this.next() : this.prev();
+        });
+        document.addEventListener('wheel', (e) => {
+            if (editor.isActive || this.wheelLock || Math.abs(e.deltaY) < 25) return;
+            this.wheelLock = true; e.deltaY > 0 ? this.next() : this.prev();
+            setTimeout(() => (this.wheelLock = false), 700);
+        }, { passive: true });
+    }
+}
+
+/* ===========================================
+   INLINE EDITOR — press E (or hover top-left corner)
+   Click text to edit; Ctrl+S downloads the edited file.
+   =========================================== */
+const editor = {
+    isActive: false,
+    toggle() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle('editing', this.isActive);
+        const btn = document.getElementById('editToggle');
+        btn.classList.toggle('active', this.isActive);
+        btn.textContent = this.isActive ? 'Done editing' : 'Edit text';
+        const stage = document.getElementById('deckStage');
+        if (this.isActive) {
+            stage.setAttribute('contenteditable', 'true'); stage.spellcheck = false;
+            document.querySelectorAll('.cnt').forEach(resetCount);
+            deck.revealed = deck.stepsOf(deck.slides[deck.current]); deck.applySteps(false);
+        } else stage.removeAttribute('contenteditable');
+    },
+    download() {
+        document.querySelectorAll('.cnt').forEach(resetCount);
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector('#deckStage').removeAttribute('contenteditable');
+        clone.querySelector('body').classList.remove('editing');
+        clone.querySelectorAll('.gen:not(#pxwipe)').forEach(el => el.remove());
+        clone.querySelector('#pxwipe').innerHTML = '';
+        clone.querySelectorAll('.in, .rev').forEach(el => el.classList.remove('in', 'rev'));
+        clone.querySelectorAll('[style*="transform"]').forEach(el => { if (el.id === 'deckStage') el.removeAttribute('style'); });
+        clone.querySelectorAll('.slide').forEach((s, i) => { s.classList.toggle('active', i === 0); s.classList.remove('visible'); });
+        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ai-healthcare-presentation.html'; a.click();
+    }
+};
+
+const toggleBtn = document.getElementById('editToggle'), hotzone = document.getElementById('editHotzone');
+let hideTimeout = null;
+toggleBtn.addEventListener('click', (e) => { e.stopPropagation(); editor.toggle(); });
+hotzone.addEventListener('click', (e) => { e.stopPropagation(); editor.toggle(); });
+hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); toggleBtn.classList.add('show'); });
+hotzone.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) toggleBtn.classList.remove('show'); }, 400); });
+toggleBtn.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+toggleBtn.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) toggleBtn.classList.remove('show'); }, 400); });
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); editor.download(); return; }
+    if (e.key === 'Escape' && editor.isActive) { editor.toggle(); return; }
+    if ((e.key === 'e' || e.key === 'E') && !editor.isActive && !e.ctrlKey && !e.metaKey) editor.toggle();
+});
+
+const deck = new SlidePresentation();
+window.presentation = deck;
+</script>
+</body>
+</html>
