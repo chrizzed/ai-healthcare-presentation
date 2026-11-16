@@ -507,71 +507,6 @@
         .wc em { font-style: italic; }
         .made { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 52px; z-index: 3; padding-top: 16px; border-top: 1px solid rgba(17, 17, 17, 0.18); font-size: 20px; line-height: 1.45; color: var(--muted); }
 
-        /* ===========================================
-           SIDE PHOTO — one image on every slide
-           =========================================== */
-        .side { right: var(--pad-x); top: 296px; width: 440px; height: 560px; }
-        .slide.has-side .body { right: 632px; }
-
-        .s3 .side { top: 280px; height: 540px; }
-        .s3 .q { font-size: 37px; }
-        .s3 .thesis { margin-top: 32px; grid-template-columns: 170px 1fr; gap: 28px; }
-        .s3 .thesis p:last-child { font-size: 32px; }
-        .s3 .meta2 { margin-top: 30px; padding-top: 22px; gap: 40px; grid-template-columns: 1.5fr 1fr; }
-        .s3 .meta2 p { font-size: 25px; }
-
-        .s5 .cols { gap: 56px; }
-        .s5 .lens p { font-size: 34px; }
-        .s5 .scope-row { grid-template-columns: 96px 1fr; gap: 24px; padding: 22px 0; }
-        .s5 .scope-row p { font-size: 28px; }
-
-        .s6 .conn td { font-size: 30px; padding: 36px 0; }
-        .s6 .conn td.field { width: 320px; padding-right: 32px; font-size: 32px; }
-
-        .s8 .split { grid-template-columns: 1fr 340px; }
-        .s8 .stat .num { font-size: 150px; }
-        .s8 .stat p { font-size: 29px; margin-top: 26px; }
-        .s8 .stat.no p { max-width: none; }
-        .s8 .ama { grid-template-columns: 210px 1fr; gap: 28px; margin-top: 40px; }
-        .s8 .ama .label { font-size: 32px; }
-        .s8 .ama .quote { font-size: 38px; line-height: 1.15; }
-        .s8 .ama .quote + p { font-size: 28px; }
-
-        .s9 .side { top: 296px; width: 440px; height: 560px; }
-        .s9 .srow { grid-template-columns: 410px 1fr; gap: 28px; }
-        .s9 .srow .num { font-size: 92px; }
-        .s9 .srow p { font-size: 27px; }
-        .s9 .srows { gap: 22px; }
-        .s9 .statement { margin-top: 28px; font-size: 33px; }
-
-
-        .snh .cards2 { gap: 28px; }
-        .snh .cards2 .card { padding: 38px 38px 44px; }
-        .snh .cards2 .card h3 { font-size: 38px; }
-        .snh .cards2 .card p { font-size: 35px; }
-
-        .s4 .cards2 { gap: 28px; }
-        .s4 .cards2 .card { padding: 38px 38px 44px; }
-        .s4 .cards2 .card p { font-size: 35px; }
-
-        .s12 .lead2 { font-size: 31px; margin-bottom: 26px; }
-        .s12 .row { grid-template-columns: 370px 1fr; gap: 36px; }
-        .s12 .row .num { font-size: 92px; }
-        .s12 .row p { font-size: 28px; }
-        .s12 .rows + .statement { font-size: 31px; margin-top: 28px; padding-top: 22px; }
-
-        .s16 .side { top: 330px; height: 370px; }
-        .s16 .big { width: 1180px; font-size: 124px; }
-        .s16 .after { width: 1080px; top: 640px; font-size: 42px; }
-
-        .s17 .reflect li { font-size: 28px; padding: 16px 0; }
-        .s17 .mine p { font-size: 24px; }
-
-        .s18 .side { top: 280px; width: 340px; height: 440px; }
-        .slide.has-side.s18 .body { right: 524px; }
-        .s18 .wc { column-gap: 48px; }
-        .s18 .wc li { font-size: 22px; margin-bottom: 14px; padding-left: 36px; text-indent: -36px; }
-
         /* Print / PDF backup: one slide per page, colors kept */
         @page { size: 1920px 1080px; margin: 0; }
         @media print {
@@ -632,11 +567,10 @@
     </section>
 
     <!-- === 3 RESEARCH QUESTION (blue) === -->
-    <section class="slide has-side s3 blue" aria-label="Research question" data-px='[[24,0,6,4,0.9,"tr"],[26,14,4,3,0.9,"br"]]'>
+    <section class="slide s3 blue" aria-label="Research question" data-px='[[24,0,6,4,0.9,"tr"],[26,13,4,4,0.9,"br"]]'>
         <h2 class="title">Research question</h2>
-        <div class="photo side"><img src="images/radiologist-ct.jpg" alt="A radiologist reads CT scans on several monitors" style="object-position: 52% 50%"><span class="credit">Photo: Evelyn Chavez, U.S. Air Force, public domain</span></div>
         <div class="body">
-            <p class="q">To what extent can AI replace clinicians in diagnostic radiology and clinical decision-making, and does a hybrid clinician-AI model improve outcomes while addressing data privacy and workforce shortage?</p>
+            <p class="q">To what extent can AI replace clinicians in diagnostic radiology and clinical decision-making, and does a hybrid clinician-AI model improve outcomes while addressing algorithmic bias, data privacy, and workforce shortage?</p>
             <div class="thesis">
                 <p class="label">THESIS</p>
                 <p>Partner, not replacement: a clinician working with AI, under clear rules, can do better than standard care in some settings.</p>
@@ -649,9 +583,8 @@
     </section>
 
     <!-- === 4 HOW I STUDIED IT === -->
-    <section class="slide has-side s4" aria-label="How I studied it" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <section class="slide s4" aria-label="How I studied it" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">How I studied it</h2>
-        <div class="photo side"><img src="images/study-desk.jpg" alt="An open book and a laptop on a desk" style="object-position: 30% 50%"><span class="credit">Photo: Shixart1985, CC BY 2.0</span></div>
         <div class="body">
             <div class="cards2">
                 <div class="card"><h3>How I researched</h3><p>I used peer-reviewed studies, official guidance (WHO, FDA, AMA), and news reports. I checked the key numbers against the original sources.</p></div>
@@ -661,9 +594,8 @@
     </section>
 
     <!-- === 5 LENS AND SCOPE === -->
-    <section class="slide has-side s5" aria-label="Lens and scope" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <section class="slide s5" aria-label="Lens and scope" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Lens and scope</h2>
-        <div class="photo side"><img src="images/doctor-1980s-computer.jpg" alt="A doctor in the 1980s reads a printout beside an early computer" style="object-position: 72% 50%"><span class="credit">Photo: Ernie Branson, NCI, public domain</span></div>
         <div class="body">
             <div class="cols">
                 <div class="lens">
@@ -680,12 +612,12 @@
     </section>
 
     <!-- === 6 CONNECTIONS ACROSS FIELDS === -->
-    <section class="slide has-side s6" aria-label="Connections across fields" data-px='[[25,0,5,3,0.85,"tr"]]'>
+    <section class="slide s6" aria-label="Connections across fields" data-px='[[25,0,5,3,0.85,"tr"]]'>
         <h2 class="title">Connections across fields</h2>
-        <div class="photo side"><img src="images/who-building.jpg" alt="World Health Organization headquarters in Geneva" style="object-position: 45% 50%"><span class="credit">Photo: Yann, CC BY-SA 4.0</span></div>
         <div class="body">
             <table class="conn">
                 <tr><td class="field">Medicine and radiology</td><td>AI-supported mammography reading cut radiologists' reading workload by <span class="hl">44%</span>.</td></tr>
+                <tr><td class="field">Data and computer science</td><td>An algorithm that used cost as a stand-in for illness underestimated Black patients' needs.</td></tr>
                 <tr><td class="field">Law and policy</td><td>AMA policy says developers of autonomous clinical AI must accept liability for system failures or misdiagnosis.</td></tr>
                 <tr><td class="field">Ethics</td><td>WHO's first principle for health AI: protect human autonomy.</td></tr>
                 <tr><td class="field">Public health</td><td>WHO projects a shortage of about <span class="hl">11 million</span> health workers by 2030.</td></tr>
@@ -723,9 +655,8 @@
     </section>
 
     <!-- === 8 DO DOCTORS USE AI? [CLICKS] === -->
-    <section class="slide has-side s8" aria-label="Do doctors use AI?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <section class="slide s8" aria-label="Do doctors use AI?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Do doctors use AI? <span class="sub">Not all of them</span></h2>
-        <div class="photo side"><img src="images/doctor-tablet.jpg" alt="A doctor at her desk reads from a tablet" style="object-position: 62% 50%"><span class="credit">Photo: Shixart1985, CC BY 2.0</span></div>
         <div class="body">
             <div class="split">
                 <div class="stat" data-step="1"><div class="num cnt">81%</div><p>of surveyed US doctors report using AI in their practice.</p></div>
@@ -747,9 +678,8 @@
     </section>
 
     <!-- === 9 HOW ACCURATE IS IT? (MASAI) [CLICKS] === -->
-    <section class="slide has-side s9" aria-label="How accurate is it?" data-px='[[25,0,5,4,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <section class="slide s9" aria-label="How accurate is it?" data-px='[[25,0,5,4,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">How accurate is it? <span class="sub">AI can really help</span></h2>
-        <div class="photo side"><img src="images/radiologist-reading.jpg" alt="A radiologist reads medical images on several screens" style="object-position: 40% 50%"><span class="credit">Photo: Zackstarr, CC BY-SA 3.0</span></div>
         <div class="body">
             <p class="label" data-step="1">MASAI trial</p>
             <div class="srows">
@@ -762,10 +692,28 @@
         <p class="src">Source: MASAI trial, The Lancet (2026)</p>
     </section>
 
-    <!-- === 10 WHEN AI DOES NOT HELP (YET) [CLICKS] === -->
-    <section class="slide has-side snh" aria-label="When AI does not help (yet)" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <!-- === 10 BUT ACCURACY DEPENDS ON THE DATA (dark) [CLICKS] === -->
+    <section class="slide s10 dark" aria-label="But accuracy depends on the data" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">But accuracy depends on the data</h2>
+        <div class="body">
+            <div class="rows">
+                <div class="row" data-step="1">
+                    <div><p class="label">Obermeyer et al., 2019</p><div class="num cnt">17.7%</div></div>
+                    <div><p>of Black patients were flagged for extra care by a hospital algorithm.</p><div class="bar"><i style="--w:17.7%"></i></div></div>
+                </div>
+                <div class="row" data-step="2">
+                    <div><p class="label">If the bias were fixed</p><div class="num cnt">46.5%</div></div>
+                    <div><p>would have been flagged.</p><div class="bar"><i style="--w:46.5%"></i></div></div>
+                </div>
+            </div>
+            <p class="statement rule" data-step="3">The algorithm used past health costs as a stand-in for health needs, so Black patients who were equally sick got lower risk scores.</p>
+        </div>
+        <p class="src">Source: Obermeyer et al., Science (2019)</p>
+    </section>
+
+    <!-- === 11 WHEN AI DOES NOT HELP (YET) [CLICKS] === -->
+    <section class="slide snh" aria-label="When AI does not help (yet)" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">When AI does not help (yet)</h2>
-        <div class="photo side"><img src="images/xray-monitor.jpg" alt="An x-ray technologist checks x-rays on a monitor" style="object-position: 55% 50%"><span class="credit">Photo: Seth Rossman, U.S. Navy, public domain</span></div>
         <div class="body">
             <div class="cards2">
                 <div class="card" data-step="1"><h3>Goh et al. (2024)</h3><p>Doctors using a chatbot scored <span class="hl">76%</span> on diagnostic reasoning vs <span class="hl">74%</span> without it. No significant difference.</p></div>
@@ -775,7 +723,7 @@
         <p class="src">Sources: Goh et al., JAMA Network Open (2024); Dratsch et al., Radiology (2023)</p>
     </section>
 
-    <!-- === 11 PATIENT PRIVACY (dark + photo) [CLICKS] === -->
+    <!-- === 12 PATIENT PRIVACY (dark + photo) [CLICKS] === -->
     <section class="slide s11 dark" aria-label="Patient privacy" data-px='[[26,0,4,3,0.85,"tr"]]'>
         <div class="bgphoto"><img src="images/s11-servers.jpg" alt=""><span class="credit">Photo: BalticServers, CC BY-SA 3.0, Wikimedia Commons</span></div>
         <h2 class="title">Patient privacy</h2>
@@ -789,10 +737,9 @@
         <p class="src">Source: WHO (2021), Ethics and Governance of Artificial Intelligence for Health</p>
     </section>
 
-    <!-- === 12 CAN AI BE TRICKED? [CLICKS] === -->
-    <section class="slide has-side s12" aria-label="Can AI be tricked?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <!-- === 13 CAN AI BE TRICKED? [CLICKS] === -->
+    <section class="slide s12" aria-label="Can AI be tricked?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Can AI be tricked?</h2>
-        <div class="photo side"><img src="images/code-screen.jpg" alt="Lines of computer code on a monitor" style="object-position: 60% 50%"><span class="credit">Photo: Markus Spiske, CC0</span></div>
         <div class="body">
             <p class="lead2" data-step="1"><span class="tag in-tag">PREPRINT</span>In a 2026 preprint, multi-turn attacks raised unsafe answers from about 35% to nearly 80% in GPT-4.1-mini.</p>
             <div class="rows">
@@ -810,7 +757,7 @@
         <p class="src">Source: arXiv 2606.02630 (2026 preprint, not peer reviewed; one model)</p>
     </section>
 
-    <!-- === 13 WILL AI REPLACE RADIOLOGISTS? [CLICKS] === -->
+    <!-- === 14 WILL AI REPLACE RADIOLOGISTS? [CLICKS] === -->
     <section class="slide s13" aria-label="Will AI replace radiologists?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Will AI replace radiologists?</h2>
         <div class="body">
@@ -837,7 +784,7 @@
         <p class="src">Source: Lohr, The New York Times (May 14, 2025)</p>
     </section>
 
-    <!-- === 14 WHAT THE NUMBERS SAY ABOUT JOBS (dark + photo) [CLICKS] === -->
+    <!-- === 15 WHAT THE NUMBERS SAY ABOUT JOBS (dark + photo) [CLICKS] === -->
     <section class="slide s14 dark" aria-label="What the numbers say about jobs" data-px='[[26,0,4,3,0.85,"tr"]]'>
         <div class="bgphoto"><img src="images/s14-radiologist.jpg" alt=""><span class="credit">Photo: Bill Branson, National Cancer Institute, public domain</span></div>
         <h2 class="title">What the numbers say about jobs</h2>
@@ -865,7 +812,7 @@
         <p class="src">Source: Christensen et al., Journal of the American College of Radiology (2025)</p>
     </section>
 
-    <!-- === 15 WHAT WHO, THE FDA AND THE AMA SAY [CLICKS] === -->
+    <!-- === 16 WHAT WHO, THE FDA AND THE AMA SAY [CLICKS] === -->
     <section class="slide s15" aria-label="What WHO, the FDA and the AMA say" data-px='[[19,0,3,17,0.55,"r"]]'>
         <h2 class="title">What WHO, the FDA and the AMA say</h2>
         <div class="body">
@@ -880,18 +827,16 @@
         <p class="src">Sources: WHO (2021); FDA et al. (2021); AMA Policy H-480.939</p>
     </section>
 
-    <!-- === 16 CONCLUSION (blue) === -->
-    <section class="slide has-side s16 blue" aria-label="Conclusion" data-px='[[21,0,9,4,0.9,"tr"],[0,13,6,4,0.9,"bl"],[23,11,7,6,0.9,"br"]]'>
+    <!-- === 17 CONCLUSION (blue) === -->
+    <section class="slide s16 blue" aria-label="Conclusion" data-px='[[21,0,9,4,0.9,"tr"],[0,13,6,4,0.9,"bl"],[23,11,7,6,0.9,"br"]]'>
         <h2 class="title">Conclusion</h2>
-        <div class="photo side"><img src="images/consultation.jpg" alt="A doctor talks with a patient and a family member" style="object-position: 50% 50%"><span class="credit">Photo: Jonas Womack, U.S. Navy, public domain</span></div>
         <p class="big">Partner, <span class="y">Not Replacement.</span></p>
         <p class="after">AI helps doctors most when the doctor stays in charge.</p>
     </section>
 
-    <!-- === 17 WHAT I LEARNED (dark) === -->
-    <section class="slide has-side s17 dark" aria-label="What I learned" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+    <!-- === 18 WHAT I LEARNED (dark) === -->
+    <section class="slide s17 dark" aria-label="What I learned" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">What I learned</h2>
-        <div class="photo side"><img src="images/study-area.jpg" alt="Students working at desks in a college study area" style="object-position: 50% 50%"><span class="credit">Photo: D00264450, CC BY-SA 4.0</span></div>
         <div class="body">
             <ul class="reflect">
                 <li><span>The goal is not to choose between humans and machines. It is to design rules so they work together safely.</span></li>
@@ -908,10 +853,9 @@
         </div>
     </section>
 
-    <!-- === 18 WORKS CITED (1 of 2) === -->
-    <section class="slide has-side s18" aria-label="Works Cited" data-px='[[26,0,4,3,0.85,"tr"]]'>
+    <!-- === 19 WORKS CITED (1 of 2) === -->
+    <section class="slide s18" aria-label="Works Cited" data-px='[[26,0,4,3,0.85,"tr"]]'>
         <h2 class="title">Works Cited</h2>
-        <div class="photo side"><img src="images/bookshelves.jpg" alt="Bookshelves in a university library" style="object-position: 55% 50%"><span class="credit">Photo: Geonuch, CC BY-SA 4.0</span></div>
         <div class="body">
             <ul class="wc">
                 <li>American Medical Association. <em>2026 Physician Survey on Augmented Intelligence</em>. AMA Center for Digital Health and AI, 12 Mar. 2026.</li>
@@ -922,18 +866,18 @@
                 <li>Dratsch, Thomas, et al. “Automation Bias in Mammography: The Impact of Artificial Intelligence BI-RADS Suggestions on Reader Performance.” <em>Radiology</em>, 2023.</li>
                 <li>Goh, Ethan, et al. “Large Language Model Influence on Diagnostic Reasoning: A Randomized Clinical Trial.” <em>JAMA Network Open</em>, vol. 7, no. 10, 2024, e2440969.</li>
                 <li>Gommers, Jessie, et al. “Interval Cancer, Sensitivity, and Specificity Comparing AI-Supported Mammography Screening with Standard Double Reading without AI in the MASAI Study.” <em>The Lancet</em>, vol. 407, no. 10527, 2026, pp. 505-14.</li>
+                <li>Landi, Heather. “IBM Sells Watson Health Assets to Investment Firm Francisco Partners.” <em>Fierce Healthcare</em>, 21 Jan. 2022.</li>
             </ul>
         </div>
     </section>
 
-    <!-- === 19 WORKS CITED (2 of 2) === -->
-    <section class="slide has-side s18 last" aria-label="Works Cited, continued" data-px='[[26,0,4,3,0.85,"tr"]]'>
+    <!-- === 20 WORKS CITED (2 of 2) === -->
+    <section class="slide s18 last" aria-label="Works Cited, continued" data-px='[[26,0,4,3,0.85,"tr"]]'>
         <h2 class="title">Works Cited</h2>
-        <div class="photo side"><img src="images/library.jpg" alt="The main reading room of a university library" style="object-position: 50% 50%"><span class="credit">Photo: Marcus Gossler, CC BY-SA 3.0</span></div>
         <div class="body">
             <ul class="wc">
-                <li>Landi, Heather. “IBM Sells Watson Health Assets to Investment Firm Francisco Partners.” <em>Fierce Healthcare</em>, 21 Jan. 2022.</li>
                 <li>Lohr, Steve. “Your A.I. Radiologist Will Not Be With You Soon.” <em>The New York Times</em>, 14 May 2025.</li>
+                <li>Obermeyer, Ziad, et al. “Dissecting Racial Bias in an Algorithm Used to Manage the Health of Populations.” <em>Science</em>, vol. 366, no. 6464, 2019, pp. 447-53.</li>
                 <li>Sheoran, Anushka, and Yiduo Hao. “MultiTurnPSB: Evaluating Multi-Turn Jailbreak Attacks and Classifier-Based Defenses for Medical AI Safety.” <em>arXiv</em>, 30 May 2026, arXiv:2606.02630.</li>
                 <li>Shortliffe, Edward H. “MYCIN: A Knowledge-Based Computer Program Applied to Infectious Diseases.” <em>Proceedings of the Annual Symposium on Computer Application in Medical Care</em>, 1977, pp. 66-69.</li>
                 <li>U.S. Food and Drug Administration, et al. <em>Good Machine Learning Practice for Medical Device Development: Guiding Principles</em>. Oct. 2021.</li>
