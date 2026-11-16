@@ -8,7 +8,7 @@
     <!-- Fonts: Pixelify Sans (pixel display), Sora (statements), IBM Plex Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400..700&family=Sora:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Pixelify+Sans:wght@400..700&family=Sora:wght@500;600;700&display=swap">
 
     <style>
         /* ===========================================
@@ -28,9 +28,9 @@
             --muted-dark: #CFCFC6;  /* secondary text on dark */
             --muted-blue: #D9D9FF;  /* secondary text on blue */
 
-            --f-pixel: 'Pixelify Sans', sans-serif;
-            --f-head: 'Sora', sans-serif;
-            --f-body: 'IBM Plex Sans', sans-serif;
+            --f-pixel: 'Pixelify Sans', 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+            --f-head: 'Sora', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --f-body: 'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 
             --cell: 64px;           /* pixel grid unit (stage = 30 × 17 cells) */
             --pad-x: 128px;
@@ -431,6 +431,91 @@
             outline: 2px dashed var(--yellow); outline-offset: 6px;
         }
 
+        /* ===========================================
+           20-SLIDE REVISION — layout for changed and new slides
+           =========================================== */
+        /* Why this matters */
+        .s2 .lead .muted { display: block; margin-top: 14px; font-size: 30px; font-weight: 400; }
+
+        /* Research question: purpose + audience */
+        .s3 .body { top: 270px; }
+        .s3 .q { font-size: 42px; }
+        .s3 .thesis { margin-top: 40px; }
+        .s3 .thesis .label { font-size: 34px; }
+        .s3 .thesis p:last-child { font-size: 36px; }
+        .s3 .meta2 { margin-top: 36px; padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.35); display: grid; grid-template-columns: 1.55fr 1fr; gap: 56px; }
+        .s3 .meta2 p { font-size: 28px; line-height: 1.36; }
+        .s3 .meta2 b { display: block; margin-bottom: 6px; font-family: var(--f-pixel); font-weight: 600; font-size: 28px; color: var(--yellow); }
+
+        /* Two-card layout: method + limits, and "When AI does not help (yet)" */
+        .cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+        .cards2 .card { min-height: 0; padding: 48px 48px 56px; }
+        .cards2 .card p { font-size: 36px; line-height: 1.38; }
+        .cards2 .hl { font-family: var(--f-pixel); font-weight: 700; font-size: 1.25em; color: var(--blue); }
+
+        /* Do doctors use AI: paraphrase line */
+        .s8 .ama .quote { font-size: 46px; }
+
+        /* MASAI: full width, no photo */
+        .s9 .body { right: var(--pad-x); }
+        .s9 .srow { grid-template-columns: 560px 1fr; }
+        .num .vs { font-family: var(--f-head); font-weight: 600; font-size: 0.34em; letter-spacing: 0; margin: 0 16px; vertical-align: 0.35em; }
+        .s9 .statement { margin-top: 34px; }
+
+        /* Can AI be tricked: preprint lead line */
+        .s12 .lead2 { font-family: var(--f-head); font-weight: 500; font-size: 34px; line-height: 1.36; margin-bottom: 30px; max-width: 1500px; }
+        .s12 .lead2 .tag { display: inline-block; padding: 2px 14px; margin: 0 16px 0 0; font-size: 26px; vertical-align: 3px; }
+        .s12 .rows { gap: 24px; }
+        .s12 .row { grid-template-columns: 420px 1fr; }
+        .s12 .row .num { font-size: 100px; }
+        .s12 .row .label { margin-bottom: 14px; }
+        .s12 .rows + .statement { margin-top: 34px; padding-top: 26px; font-size: 36px; }
+
+        /* Hinton: larger photo credit */
+        .s13 .portrait .credit { font-size: 18px; line-height: 1.3; margin-top: -8px; padding: 0; color: var(--muted); }
+
+        /* Jobs: three stat columns */
+        .s14 .cols3 { display: grid; grid-template-columns: 1fr 1.5fr 0.9fr; gap: 52px; }
+        .s14 .cols3 > div { padding-top: 26px; border-top: 3px solid var(--yellow); }
+        .s14 .cols3 { margin-top: 40px; }
+        .s14 .cols3 .num { font-size: 96px; margin-bottom: 20px; }
+        .s14 .cols3 p { font-size: 32px; }
+        .s14 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+        /* What WHO, the FDA and the AMA say */
+        .s15 .src { right: 704px; }
+        .s15 .title { right: 780px; }
+        .grows { display: flex; flex-direction: column; gap: 16px; }
+        .grow { display: grid; grid-template-columns: 230px 1fr; gap: 28px; align-items: start; background: #fff; box-shadow: inset 0 0 0 2px rgba(17, 17, 17, 0.10); padding: 22px 28px 24px; }
+        .grow h3 { font-family: var(--f-pixel); font-weight: 700; font-size: 44px; line-height: 1; color: var(--blue); }
+        .grow h3 span { display: block; margin-top: 8px; font-family: var(--f-body); font-weight: 500; font-size: 19px; line-height: 1.3; color: var(--muted); }
+        .grow p { font-size: 27px; line-height: 1.38; }
+        .s15 .final { margin-top: 26px; padding: 24px 32px; font-size: 34px; line-height: 1.15; }
+
+        /* What I learned */
+        .s17 .reflect li { font-size: 30px; padding: 18px 0; grid-template-columns: 44px 1fr; gap: 20px; }
+        .s17 .reflect li::before { width: 22px; height: 22px; }
+        .s17 .reflect em { font-style: italic; color: var(--yellow); }
+        .mine { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 56px; }
+        .mine p { font-size: 25px; line-height: 1.4; color: #A3A398; }
+
+        /* Works Cited: MLA hanging indent, two columns */
+        .s18 .body { top: 270px; right: var(--pad-x); bottom: 56px; }
+        .s18.last .body { bottom: 190px; }
+        .wc { list-style: none; columns: 2; column-gap: 72px; }
+        .wc li { break-inside: avoid; padding-left: 44px; text-indent: -44px; margin-bottom: 18px; font-size: 24px; line-height: 1.42; }
+        .wc em { font-style: italic; }
+        .made { position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 52px; z-index: 3; padding-top: 16px; border-top: 1px solid rgba(17, 17, 17, 0.18); font-size: 20px; line-height: 1.45; color: var(--muted); }
+
+        /* Print / PDF backup: one slide per page, colors kept */
+        @page { size: 1920px 1080px; margin: 0; }
+        @media print {
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+                transition: none !important; animation: none !important;
+            }
+        }
+
         /* Reduced motion: no pixel choreography, just show things */
         @media (prefers-reduced-motion: reduce) {
             #pxwipe { display: none; }
@@ -472,24 +557,27 @@
             <div class="hero">
                 <div class="num cnt">81%</div>
                 <div>
-                    <p class="lead">of surveyed US physicians use AI at work in 2026.</p>
-                    <p class="muted">More than double the share in 2023, when the AMA first asked.</p>
+                    <p class="lead">of surveyed US doctors report using AI in their practice <span class="muted">(up from 38% in 2023).</span></p>
                 </div>
             </div>
             <p class="statement rule">The question is no longer whether AI is in the exam room. It is who stays in charge.</p>
         </div>
         <div class="photo strip-r"><img src="images/s2-doctor-computer.jpg" alt="A doctor uses a computer during a consultation"><span class="credit">Photo: Shixart1985, CC BY 2.0, Wikimedia Commons</span></div>
-        <p class="src">Source: AMA 2026 Physician Survey on Augmented Intelligence (nearly 1,700 doctors)</p>
+        <p class="src">Source: AMA 2026 survey</p>
     </section>
 
     <!-- === 3 RESEARCH QUESTION (blue) === -->
-    <section class="slide s3 blue" aria-label="Research question" data-px='[[24,0,6,4,0.9,"tr"],[25,12,5,5,0.9,"br"]]'>
+    <section class="slide s3 blue" aria-label="Research question" data-px='[[24,0,6,4,0.9,"tr"],[26,13,4,4,0.9,"br"]]'>
         <h2 class="title">Research question</h2>
         <div class="body">
             <p class="q">To what extent can AI replace clinicians in diagnostic radiology and clinical decision-making, and does a hybrid clinician-AI model improve outcomes while addressing algorithmic bias, data privacy, and workforce shortage?</p>
             <div class="thesis">
                 <p class="label">THESIS</p>
                 <p>Partner, not replacement: a clinician working with AI, under clear rules, can do better than standard care in some settings.</p>
+            </div>
+            <div class="meta2">
+                <p><b>Purpose</b>To show how AI can help doctors, where it falls short, and why a human must stay in the loop.</p>
+                <p><b>Audience</b>My classmates and Professor Hill (IDS 2891).</p>
             </div>
         </div>
     </section>
@@ -498,13 +586,10 @@
     <section class="slide s4" aria-label="How I studied it" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">How I studied it</h2>
         <div class="body">
-            <div class="cards4">
-                <div class="card"><h3>History</h3><p>Why early systems like MYCIN and IBM Watson fell short</p></div>
-                <div class="card"><h3>Evidence</h3><p>What happens when clinicians and AI work together</p></div>
-                <div class="card"><h3>Risks</h3><p>Bias, patient privacy, and who is accountable</p></div>
-                <div class="card"><h3>Rules</h3><p>AMA and WHO guidance on using AI safely</p></div>
+            <div class="cards2">
+                <div class="card"><h3>How I researched</h3><p>I used peer-reviewed studies, official guidance (WHO, FDA, AMA), and news reports. I checked the key numbers against the original sources.</p></div>
+                <div class="card"><h3>Limits</h3><p>Studies differ in size and setting. Some results are preprints. AI changes fast, so numbers can change.</p></div>
             </div>
-            <p class="note">I compared studies, trials, and policy documents. I checked key claims against their original sources and reviewed my plan with my librarian.</p>
         </div>
     </section>
 
@@ -533,40 +618,40 @@
             <table class="conn">
                 <tr><td class="field">Medicine and radiology</td><td>AI-supported mammography reading cut radiologists' reading workload by <span class="hl">44%</span>.</td></tr>
                 <tr><td class="field">Data and computer science</td><td>An algorithm that used cost as a stand-in for illness underestimated Black patients' needs.</td></tr>
-                <tr><td class="field">Law and policy</td><td>AMA Policy H-480.939 says developers of autonomous clinical AI should accept liability for failures.</td></tr>
+                <tr><td class="field">Law and policy</td><td>AMA policy says developers of autonomous clinical AI must accept liability for system failures or misdiagnosis.</td></tr>
                 <tr><td class="field">Ethics</td><td>WHO's first principle for health AI: protect human autonomy.</td></tr>
-                <tr><td class="field">Public health</td><td>Radiologist supply is projected to grow <span class="hl">25.7–40.3%</span> by 2055, but researchers say the gap with demand will persist without more residency positions.</td></tr>
+                <tr><td class="field">Public health</td><td>WHO projects a shortage of about <span class="hl">11 million</span> health workers by 2030.</td></tr>
             </table>
         </div>
     </section>
 
-    <!-- === 7 AI ALMOST DIED IN MEDICINE [CLICKS] === -->
-    <section class="slide s7" aria-label="AI almost died in medicine" data-px='[[26,0,4,3,0.85,"tr"]]'>
-        <h2 class="title">AI almost died in medicine</h2>
+    <!-- === 7 AI'S ROCKY START IN MEDICINE [CLICKS] === -->
+    <section class="slide s7" aria-label="AI's rocky start in medicine" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <h2 class="title">AI's rocky start in medicine</h2>
         <div class="body">
             <div class="timeline">
                 <div class="tl-item" data-step="1">
                     <div class="photo"><img src="images/s7-1970s.jpg" alt="A PDP-10 computer at the Stanford AI Lab, 1979"><span class="credit">Photo: Rodney Brooks, GFDL 1.3</span></div>
-                    <div class="num">1970s</div>
+                    <div class="num">1977</div>
                     <h3>MYCIN</h3>
-                    <p>A Stanford program suggested antibiotics using hand-written rules. It never became part of everyday care.</p>
+                    <p>A research-only system. It suggested antibiotics using hand-written rules.</p>
                 </div>
                 <div class="tl-item" data-step="2">
                     <div class="photo"><img src="images/s7-2010s.jpg" alt="IBM Watson Jeopardy! stage replica"><span class="credit">Photo: Atomic Taco, CC BY-SA 2.0</span></div>
                     <div class="num">2010s</div>
                     <h3>Watson hype</h3>
-                    <p>IBM promised Watson would help fight cancer. One hospital reportedly spent about <b>$62 million</b> on a project that was shelved.</p>
+                    <p>IBM promised Watson would help fight cancer. One hospital reportedly spent about <b>$62 million</b> on a project that never went live.</p>
                 </div>
                 <div class="tl-item" data-step="3">
                     <div class="photo"><img src="images/s7-2022.jpg" alt="IBM headquarters in Armonk, New York"><span class="credit">Photo: Treesmittenex, CC BY-SA 4.0</span></div>
                     <div class="num">2022</div>
                     <h3>The fall</h3>
-                    <p>IBM sold off its Watson Health business.</p>
+                    <p>IBM sold Watson Health's data and analytics business.</p>
                 </div>
             </div>
             <p class="statement rule" data-step="4">AI nearly died because it promised too much. That is why this project says: partner, not replacement.</p>
         </div>
-        <p class="src">Sources: The Register; Fierce Healthcare</p>
+        <p class="src">Sources: Shortliffe (1977); The Register; Fierce Healthcare</p>
     </section>
 
     <!-- === 8 DO DOCTORS USE AI? [CLICKS] === -->
@@ -574,17 +659,17 @@
         <h2 class="title">Do doctors use AI? <span class="sub">Not all of them</span></h2>
         <div class="body">
             <div class="split">
-                <div class="stat" data-step="1"><div class="num cnt">81%</div><p>of surveyed US doctors use AI at work.</p></div>
-                <div class="stat no" data-step="2"><div class="num cnt">19%</div><p>do not. Use is common, but not universal.</p></div>
+                <div class="stat" data-step="1"><div class="num cnt">81%</div><p>of surveyed US doctors report using AI in their practice.</p></div>
+                <div class="stat no" data-step="2"><div class="num cnt">19%</div><p>reported no AI use.</p></div>
             </div>
             <div class="split-bar" aria-hidden="true">
                 <span class="yes" data-step="1"></span>
                 <span class="noseg" data-step="2"></span>
             </div>
             <div class="ama" data-step="3">
-                <p class="label">AMA view</p>
+                <p class="label">AMA policy</p>
                 <div>
-                    <p class="quote">“AI assists. The doctor decides.”</p>
+                    <p class="quote">AI should enhance human intelligence, not replace it.</p>
                     <p>The AMA calls it augmented intelligence.</p>
                 </div>
             </div>
@@ -592,18 +677,18 @@
         <p class="src">Sources: AMA 2026 survey; AMA Policy H-480.939</p>
     </section>
 
-    <!-- === 9 HOW ACCURATE IS IT? [CLICKS] === -->
-    <section class="slide s9" aria-label="How accurate is it?" data-px='[[25,0,5,4,0.85,"tr"],[26,13,4,4,0.85,"br"]]'>
+    <!-- === 9 HOW ACCURATE IS IT? (MASAI) [CLICKS] === -->
+    <section class="slide s9" aria-label="How accurate is it?" data-px='[[25,0,5,4,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">How accurate is it? <span class="sub">AI can really help</span></h2>
         <div class="body">
             <p class="label" data-step="1">MASAI trial</p>
             <div class="srows">
                 <div class="srow" data-step="1"><div class="num cnt">106,000</div><p>women had breast cancer screening supported by AI.</p></div>
-                <div class="srow" data-step="2"><div class="num cnt">12%</div><p>fewer interval cancers (cancers that appear between screenings).</p></div>
+                <div class="srow" data-step="2"><div class="num">82<span class="vs">vs</span>93</div><p>interval cancers (cancers that appear between screenings) with AI support vs standard reading. AI-supported screening was non-inferior.</p></div>
                 <div class="srow" data-step="3"><div class="num cnt">44%</div><p>less reading workload for radiologists. They still read the scans.</p></div>
             </div>
+            <p class="statement" data-step="4">The authors say the results do not support replacing doctors.</p>
         </div>
-        <div class="photo"><img src="images/s9-mammogram.jpg" alt="A woman undergoing a mammogram"><span class="credit">Photo: National Cancer Institute, public domain</span></div>
         <p class="src">Source: MASAI trial, The Lancet (2026)</p>
     </section>
 
@@ -621,45 +706,58 @@
                     <div><p>would have been flagged.</p><div class="bar"><i style="--w:46.5%"></i></div></div>
                 </div>
             </div>
-            <p class="statement rule" data-step="3">AI can help. AI can be biased. We need both facts.</p>
+            <p class="statement rule" data-step="3">The algorithm used past health costs as a stand-in for health needs, so Black patients who were equally sick got lower risk scores.</p>
         </div>
         <p class="src">Source: Obermeyer et al., Science (2019)</p>
     </section>
 
-    <!-- === 11 PATIENT PRIVACY (dark + photo) [CLICKS] === -->
+    <!-- === 11 WHEN AI DOES NOT HELP (YET) [CLICKS] === -->
+    <section class="slide snh" aria-label="When AI does not help (yet)" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">When AI does not help (yet)</h2>
+        <div class="body">
+            <div class="cards2">
+                <div class="card" data-step="1"><h3>Goh et al. (2024)</h3><p>Doctors using a chatbot scored <span class="hl">76%</span> on diagnostic reasoning vs <span class="hl">74%</span> without it. No significant difference.</p></div>
+                <div class="card" data-step="2"><h3>Dratsch et al. (2023)</h3><p>When the AI suggestion was wrong, very experienced radiologists dropped from about <span class="hl">82%</span> to <span class="hl">45.5%</span> accuracy.</p></div>
+            </div>
+        </div>
+        <p class="src">Sources: Goh et al., JAMA Network Open (2024); Dratsch et al., Radiology (2023)</p>
+    </section>
+
+    <!-- === 12 PATIENT PRIVACY (dark + photo) [CLICKS] === -->
     <section class="slide s11 dark" aria-label="Patient privacy" data-px='[[26,0,4,3,0.85,"tr"]]'>
-        <div class="bgphoto"><img src="images/s11-servers.jpg" alt=""><span class="credit">Photo: BalticServers.com, CC BY-SA 3.0, Wikimedia Commons</span></div>
+        <div class="bgphoto"><img src="images/s11-servers.jpg" alt=""><span class="credit">Photo: BalticServers, CC BY-SA 3.0, Wikimedia Commons</span></div>
         <h2 class="title">Patient privacy</h2>
         <div class="body">
             <div class="three">
                 <div data-step="1"><div class="num">1</div><h3>Training data</h3><p>AI learns from patient records, some of the most personal data that exist.</p></div>
                 <div data-step="2"><div class="num">2</div><h3>Leaks and sales</h3><p>If data is leaked or sold, people can be identified, and that harm cannot be undone.</p></div>
-                <div data-step="3"><div class="num">3</div><h3>Our rule</h3><p>Be open with patients about how their data is used.</p></div>
+                <div data-step="3"><div class="num">3</div><h3>What WHO says</h3><p>Protect privacy and get patients' informed consent.</p></div>
             </div>
         </div>
         <p class="src">Source: WHO (2021), Ethics and Governance of Artificial Intelligence for Health</p>
     </section>
 
-    <!-- === 12 CAN AI BE TRICKED? [CLICKS] === -->
+    <!-- === 13 CAN AI BE TRICKED? [CLICKS] === -->
     <section class="slide s12" aria-label="Can AI be tricked?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Can AI be tricked?</h2>
         <div class="body">
+            <p class="lead2" data-step="1"><span class="tag in-tag">PREPRINT</span>In a 2026 preprint, multi-turn attacks raised unsafe answers from about 35% to nearly 80% in GPT-4.1-mini.</p>
             <div class="rows">
-                <div class="row" data-step="1">
-                    <div><p class="label">First message</p><div class="num"><small>about</small><span class="cnt">35%</span></div></div>
-                    <div><p>jailbreak success in one tested model. (A jailbreak tricks an AI into breaking its own safety rules.)</p><div class="bar"><i style="--w:35%"></i></div></div>
-                </div>
                 <div class="row" data-step="2">
-                    <div><p class="label">By the fourth message</p><div class="num"><small>about</small><span class="cnt">79%</span></div></div>
-                    <div><p>in the same model.</p><div class="bar"><i style="--w:79%"></i></div></div>
+                    <div><p class="label">From</p><div class="num"><small>about</small><span class="cnt">35%</span></div></div>
+                    <div><p>unsafe answers</p><div class="bar"><i style="--w:35%"></i></div></div>
+                </div>
+                <div class="row" data-step="3">
+                    <div><p class="label">To</p><div class="num"><small>nearly</small><span class="cnt">80%</span></div></div>
+                    <div><p>unsafe answers after multi-turn attacks</p><div class="bar"><i style="--w:80%"></i></div></div>
                 </div>
             </div>
-            <p class="statement rule" data-step="3">One model, not every AI. But a tricked medical AI could give unsafe advice, so a clinician must stay in the loop.</p>
+            <p class="statement rule" data-step="4">One model, not every AI. But a tricked medical AI could give unsafe advice, so a clinician must stay in the loop.</p>
         </div>
         <p class="src">Source: arXiv 2606.02630 (2026 preprint, not peer reviewed; one model)</p>
     </section>
 
-    <!-- === 13 WILL AI REPLACE RADIOLOGISTS? [CLICKS] === -->
+    <!-- === 14 WILL AI REPLACE RADIOLOGISTS? [CLICKS] === -->
     <section class="slide s13" aria-label="Will AI replace radiologists?" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
         <h2 class="title">Will AI replace radiologists?</h2>
         <div class="body">
@@ -670,13 +768,12 @@
                         <p class="label">Hinton, 2016</p>
                         <span class="credit">Photo: Arthur Petron, CC BY-SA 4.0</span>
                     </div>
-                    <p class="quote">“People should stop training radiologists now.”</p>
-                    <p>He said AI would outperform radiologists within five years.</p>
+                    <p class="today">In 2016 Geoffrey Hinton said we should stop training radiologists because AI would soon outperform them.</p>
                 </div>
                 <div data-step="2">
-                    <p class="label">Nine years later</p>
-                    <div class="num cnt">55%</div>
-                    <p>growth in Mayo Clinic's radiology staff since 2016, to more than 400 radiologists.</p>
+                    <p class="label">It did not happen.</p>
+                    <div class="num"><small>about</small><span class="cnt">55%</span></div>
+                    <p>Since then Mayo Clinic's radiology staff grew about 55%, to more than 400 radiologists.</p>
                 </div>
                 <div data-step="3">
                     <p class="label">Hinton today</p>
@@ -687,79 +784,109 @@
         <p class="src">Source: Lohr, The New York Times (May 14, 2025)</p>
     </section>
 
-    <!-- === 14 WHAT THE NUMBERS SAY ABOUT JOBS (dark + photo) [CLICKS] === -->
+    <!-- === 15 WHAT THE NUMBERS SAY ABOUT JOBS (dark + photo) [CLICKS] === -->
     <section class="slide s14 dark" aria-label="What the numbers say about jobs" data-px='[[26,0,4,3,0.85,"tr"]]'>
         <div class="bgphoto"><img src="images/s14-radiologist.jpg" alt=""><span class="credit">Photo: Bill Branson, National Cancer Institute, public domain</span></div>
         <h2 class="title">What the numbers say about jobs</h2>
         <div class="body">
-            <div class="cols">
+            <div class="cols3">
                 <div data-step="1">
-                    <p class="label">MASAI</p>
-                    <div class="num cnt">44%</div>
-                    <p>less reading work for radiologists. They still read the scans.</p>
+                    <p class="label">Demand for imaging</p>
+                    <div class="num">17–27%</div>
+                    <p>projected growth.</p>
                 </div>
                 <div data-step="2">
-                    <p class="label">&nbsp;</p>
-                    <div class="num">25.7–40.3%</div>
-                    <p>projected growth in radiologists treating Medicare patients by 2055, up from 37,482 in 2023.</p>
+                    <p class="label">Radiologist supply, projected growth</p>
+                    <div class="pair">
+                        <div><div class="num cnt">25.7%</div><p>if residency stays flat.</p></div>
+                        <div><div class="num cnt">40.3%</div><p>if residency grows.</p></div>
+                    </div>
+                </div>
+                <div data-step="3">
+                    <p class="label">In 2023</p>
+                    <div class="num cnt">37,482</div>
+                    <p>radiologists.</p>
                 </div>
             </div>
-            <p class="statement" data-step="3">Less work per scan does not mean fewer doctors. Without more residency positions, the gap between supply and demand will persist.</p>
         </div>
-        <p class="src">Sources: MASAI trial, The Lancet (2026); Christensen et al., Journal of the American College of Radiology (2025)</p>
+        <p class="src">Source: Christensen et al., Journal of the American College of Radiology (2025)</p>
     </section>
 
-    <!-- === 15 HOW TO USE AI CORRECTLY [CLICKS] === -->
-    <section class="slide s15" aria-label="How to use AI correctly" data-px='[[19,0,3,17,0.55,"r"]]'>
-        <h2 class="title">How to use AI correctly: four rules</h2>
+    <!-- === 16 WHAT WHO, THE FDA AND THE AMA SAY [CLICKS] === -->
+    <section class="slide s15" aria-label="What WHO, the FDA and the AMA say" data-px='[[19,0,3,17,0.55,"r"]]'>
+        <h2 class="title">What WHO, the FDA and the AMA say</h2>
         <div class="body">
-            <div class="rules">
-                <div class="rule-item" data-step="1"><div class="num">1</div><p>AI proposes. The clinician decides.</p></div>
-                <div class="rule-item" data-step="2"><div class="num">2</div><p>Check the data for bias.</p></div>
-                <div class="rule-item" data-step="3"><div class="num">3</div><p>Be open with patients.</p></div>
-                <div class="rule-item" data-step="4"><div class="num">4</div><p>Make someone accountable. <span>If AI makes a mistake, a person must answer for it.</span></p></div>
+            <div class="grows">
+                <div class="grow" data-step="1"><h3>WHO</h3><p>Humans stay in control of medical decisions. AI is transparent. Someone is accountable.</p></div>
+                <div class="grow" data-step="2"><h3>FDA <span>(with Health Canada and the UK)</span></h3><p>Design for the doctor-AI team. Give users clear information. Keep monitoring AI after it is in use.</p></div>
+                <div class="grow" data-step="3"><h3>AMA</h3><p>AI should enhance human intelligence, not replace it. Developers of autonomous clinical AI must accept liability.</p></div>
             </div>
-            <p class="final" data-step="5">We never rely on AI 100 percent.</p>
+            <p class="final" data-step="4">Same message from all three: a human in the loop, clear information, someone accountable.</p>
         </div>
         <div class="photo strip-r"><img src="images/s15-doctor-patient.jpg" alt="A doctor with a tablet talks with a patient"><span class="credit">Photo: Shixart1985, CC BY 2.0, Wikimedia Commons</span></div>
+        <p class="src">Sources: WHO (2021); FDA et al. (2021); AMA Policy H-480.939</p>
     </section>
 
-    <!-- === 16 CONCLUSION (blue) === -->
+    <!-- === 17 CONCLUSION (blue) === -->
     <section class="slide s16 blue" aria-label="Conclusion" data-px='[[21,0,9,4,0.9,"tr"],[0,13,6,4,0.9,"bl"],[23,11,7,6,0.9,"br"]]'>
         <h2 class="title">Conclusion</h2>
         <p class="big">Partner, <span class="y">Not Replacement.</span></p>
         <p class="after">AI helps doctors most when the doctor stays in charge.</p>
     </section>
 
-    <!-- === 17 FINAL REFLECTION (dark) === -->
-    <section class="slide s17 dark" aria-label="Final reflection" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
-        <h2 class="title">Final reflection</h2>
+    <!-- === 18 WHAT I LEARNED (dark) === -->
+    <section class="slide s17 dark" aria-label="What I learned" data-px='[[25,0,5,3,0.85,"tr"],[26,14,4,3,0.85,"br"]]'>
+        <h2 class="title">What I learned</h2>
         <div class="body">
             <ul class="reflect">
-                <li>The goal is not to choose between humans and machines. It is to design rules so they work together safely.</li>
-                <li>Strong claims need strong sources, so I narrowed “hybrid is always better” to “better in some settings.”</li>
-                <li>Early AI nearly died because it promised too much. Hype is a risk too.</li>
+                <li><span>The goal is not to choose between humans and machines. It is to design rules so they work together safely.</span></li>
+                <li><span>Strong claims need strong sources, so I narrowed <em>hybrid is always better</em> to <em>better in some settings</em>.</span></li>
+                <li><span>Early AI nearly died because it promised too much. Hype is a risk too.</span></li>
+                <li><span>While checking sources, I removed a quote that wasn't actually the AMA's and corrected claims that said more than their sources did.</span></li>
+            </ul>
+            <div class="mine">
+                <p>[My words: what surprised me most]</p>
+                <p>[My words: how my thinking changed]</p>
+                <p>[My words: what I would do differently]</p>
+                <p>[My words: what I still want to know]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- === 19 WORKS CITED (1 of 2) === -->
+    <section class="slide s18" aria-label="Works Cited" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <h2 class="title">Works Cited</h2>
+        <div class="body">
+            <ul class="wc">
+                <li>American Medical Association. <em>2026 Physician Survey on Augmented Intelligence</em>. AMA Center for Digital Health and AI, 12 Mar. 2026.</li>
+                <li>American Medical Association. “Augmented Intelligence in Health Care H-480.939.” <em>AMA PolicyFinder</em>, 2025. Accessed 15 Nov. 2026.</li>
+                <li>Chirgwin, Richard. “Watson Can't Cure Cancer ... or All the Stuff That Breaks IT Projects.” <em>The Register</em>, 20 Feb. 2017.</li>
+                <li>Christensen, Eric W., et al. “Projected US Imaging Utilization, 2025 to 2055.” <em>Journal of the American College of Radiology</em>, vol. 22, no. 2, 2025, pp. 151-58.</li>
+                <li>Christensen, Eric W., et al. “Projected US Radiologist Supply, 2025 to 2055.” <em>Journal of the American College of Radiology</em>, vol. 22, no. 2, 2025, pp. 161-69.</li>
+                <li>Dratsch, Thomas, et al. “Automation Bias in Mammography: The Impact of Artificial Intelligence BI-RADS Suggestions on Reader Performance.” <em>Radiology</em>, 2023.</li>
+                <li>Goh, Ethan, et al. “Large Language Model Influence on Diagnostic Reasoning: A Randomized Clinical Trial.” <em>JAMA Network Open</em>, vol. 7, no. 10, 2024, e2440969.</li>
+                <li>Gommers, Jessie, et al. “Interval Cancer, Sensitivity, and Specificity Comparing AI-Supported Mammography Screening with Standard Double Reading without AI in the MASAI Study.” <em>The Lancet</em>, vol. 407, no. 10527, 2026, pp. 505-14.</li>
+                <li>Landi, Heather. “IBM Sells Watson Health Assets to Investment Firm Francisco Partners.” <em>Fierce Healthcare</em>, 21 Jan. 2022.</li>
             </ul>
         </div>
     </section>
 
-    <!-- === 18 SOURCES === -->
-    <section class="slide s18" aria-label="Sources" data-px='[[26,0,4,3,0.85,"tr"]]'>
-        <h2 class="title">Sources</h2>
+    <!-- === 20 WORKS CITED (2 of 2) === -->
+    <section class="slide s18 last" aria-label="Works Cited, continued" data-px='[[26,0,4,3,0.85,"tr"]]'>
+        <h2 class="title">Works Cited</h2>
         <div class="body">
-            <ol class="refs">
-                <li>AMA, 2026 Physician Survey on Augmented Intelligence.</li>
-                <li>AMA, Augmented intelligence in medicine, and Policy H-480.939.</li>
-                <li>WHO (2021), Ethics and Governance of Artificial Intelligence for Health.</li>
-                <li>Obermeyer et al. (2019), Dissecting racial bias in an algorithm used to manage the health of populations, Science 366(6464), 447–453.</li>
-                <li>MASAI trial, The Lancet (2026), DOI <span class="nowrap">10.1016/S0140-6736(25)02464-X.</span></li>
-                <li>The Register, report on IBM Watson's cancer project cost.</li>
-                <li>Fierce Healthcare, report on the sale of IBM Watson Health.</li>
-                <li>arXiv 2606.02630 (2026 preprint).</li>
-                <li>Lohr, S. (2025, May 14), The New York Times.</li>
-                <li>Christensen et al. (2025), J Am Coll Radiol 22(2), 161–169, DOI <span class="nowrap">10.1016/j.jacr.2024.10.019.</span></li>
-            </ol>
+            <ul class="wc">
+                <li>Lohr, Steve. “Your A.I. Radiologist Will Not Be With You Soon.” <em>The New York Times</em>, 14 May 2025.</li>
+                <li>Obermeyer, Ziad, et al. “Dissecting Racial Bias in an Algorithm Used to Manage the Health of Populations.” <em>Science</em>, vol. 366, no. 6464, 2019, pp. 447-53.</li>
+                <li>Sheoran, Anushka, and Yiduo Hao. “MultiTurnPSB: Evaluating Multi-Turn Jailbreak Attacks and Classifier-Based Defenses for Medical AI Safety.” <em>arXiv</em>, 30 May 2026, arXiv:2606.02630.</li>
+                <li>Shortliffe, Edward H. “MYCIN: A Knowledge-Based Computer Program Applied to Infectious Diseases.” <em>Proceedings of the Annual Symposium on Computer Application in Medical Care</em>, 1977, pp. 66-69.</li>
+                <li>U.S. Food and Drug Administration, et al. <em>Good Machine Learning Practice for Medical Device Development: Guiding Principles</em>. Oct. 2021.</li>
+                <li>U.S. Food and Drug Administration. “List of Artificial Intelligence-Enabled Medical Devices.” <em>FDA</em>, 4 Sept. 2026. Accessed 15 Nov. 2026.</li>
+                <li>World Health Organization. <em>Ethics and Governance of Artificial Intelligence for Health: WHO Guidance</em>. World Health Organization, 2021.</li>
+                <li>World Health Organization. <em>Global Strategy on Human Resources for Health: Workforce 2030</em>. EB156/15, Executive Board, 156th session, 20 Dec. 2024.</li>
+            </ul>
         </div>
+        <p class="made">How I made this: I found my sources by watching YouTube videos and searching Google. I used AI tools to help with the design and code of this website, to help check the sources, and Grammarly for grammar and word choice. I checked the key numbers against the original sources. The argument and conclusions are mine.</p>
     </section>
 
     <!-- Pixel transition layer (generated) -->
@@ -768,8 +895,6 @@
 </div>
 
 <div class="progress" id="progress"></div>
-<div class="edit-hotzone" id="editHotzone"></div>
-<button class="edit-toggle" id="editToggle" title="Edit mode (E)">Edit text</button>
 
 <script>
 /* ===========================================
@@ -951,7 +1076,6 @@ class SlidePresentation {
 
     setupKeyboardNav() {
         document.addEventListener('keydown', (e) => {
-            if (editor.isActive) return;
             if (['ArrowRight', 'ArrowDown', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); this.next(); }
             else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); this.prev(); }
             else if (e.key === 'Home') this.showSlide(0, false);
@@ -960,69 +1084,23 @@ class SlidePresentation {
     }
 
     setupPointerNav() {
-        document.querySelector('.deck-viewport').addEventListener('click', () => { if (!editor.isActive) this.next(); });
+        document.querySelector('.deck-viewport').addEventListener('click', () => { this.next(); });
         let x0 = 0;
         document.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
         document.addEventListener('touchend', (e) => {
-            if (editor.isActive) return;
             const dx = e.changedTouches[0].clientX - x0;
             if (Math.abs(dx) > 50) dx < 0 ? this.next() : this.prev();
         });
         document.addEventListener('wheel', (e) => {
-            if (editor.isActive || this.wheelLock || Math.abs(e.deltaY) < 25) return;
+            if (this.wheelLock || Math.abs(e.deltaY) < 25) return;
             this.wheelLock = true; e.deltaY > 0 ? this.next() : this.prev();
             setTimeout(() => (this.wheelLock = false), 700);
         }, { passive: true });
     }
 }
 
-/* ===========================================
-   INLINE EDITOR — press E (or hover top-left corner)
-   Click text to edit; Ctrl+S downloads the edited file.
-   =========================================== */
-const editor = {
-    isActive: false,
-    toggle() {
-        this.isActive = !this.isActive;
-        document.body.classList.toggle('editing', this.isActive);
-        const btn = document.getElementById('editToggle');
-        btn.classList.toggle('active', this.isActive);
-        btn.textContent = this.isActive ? 'Done editing' : 'Edit text';
-        const stage = document.getElementById('deckStage');
-        if (this.isActive) {
-            stage.setAttribute('contenteditable', 'true'); stage.spellcheck = false;
-            document.querySelectorAll('.cnt').forEach(resetCount);
-            deck.revealed = deck.stepsOf(deck.slides[deck.current]); deck.applySteps(false);
-        } else stage.removeAttribute('contenteditable');
-    },
-    download() {
-        document.querySelectorAll('.cnt').forEach(resetCount);
-        const clone = document.documentElement.cloneNode(true);
-        clone.querySelector('#deckStage').removeAttribute('contenteditable');
-        clone.querySelector('body').classList.remove('editing');
-        clone.querySelectorAll('.gen:not(#pxwipe)').forEach(el => el.remove());
-        clone.querySelector('#pxwipe').innerHTML = '';
-        clone.querySelectorAll('.in, .rev').forEach(el => el.classList.remove('in', 'rev'));
-        clone.querySelectorAll('[style*="transform"]').forEach(el => { if (el.id === 'deckStage') el.removeAttribute('style'); });
-        clone.querySelectorAll('.slide').forEach((s, i) => { s.classList.toggle('active', i === 0); s.classList.remove('visible'); });
-        const blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ai-healthcare-presentation.html'; a.click();
-    }
-};
-
-const toggleBtn = document.getElementById('editToggle'), hotzone = document.getElementById('editHotzone');
-let hideTimeout = null;
-toggleBtn.addEventListener('click', (e) => { e.stopPropagation(); editor.toggle(); });
-hotzone.addEventListener('click', (e) => { e.stopPropagation(); editor.toggle(); });
-hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); toggleBtn.classList.add('show'); });
-hotzone.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) toggleBtn.classList.remove('show'); }, 400); });
-toggleBtn.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
-toggleBtn.addEventListener('mouseleave', () => { hideTimeout = setTimeout(() => { if (!editor.isActive) toggleBtn.classList.remove('show'); }, 400); });
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); editor.download(); return; }
-    if (e.key === 'Escape' && editor.isActive) { editor.toggle(); return; }
-    if ((e.key === 'e' || e.key === 'E') && !editor.isActive && !e.ctrlKey && !e.metaKey) editor.toggle();
-});
+/* Print (Ctrl+P): show final numbers, not mid-count values */
+window.addEventListener('beforeprint', () => document.querySelectorAll('.cnt').forEach(resetCount));
 
 const deck = new SlidePresentation();
 window.presentation = deck;
