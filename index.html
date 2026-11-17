@@ -564,6 +564,9 @@
         .s16 .side { top: 330px; height: 370px; }
         .s16 .big { width: 1180px; font-size: 124px; }
         .s16 .after { width: 1080px; top: 640px; font-size: 42px; }
+        .s16 .article { position: absolute; left: var(--pad-x); top: 760px; z-index: 3; color: #fff; text-decoration: none; font-size: 30px; line-height: 1.3; }
+        .s16 .article b { display: block; margin-bottom: 6px; font-family: var(--f-pixel); font-weight: 600; font-size: 26px; color: var(--yellow); }
+        .s16 .article span { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 
         .s17 .reflect li { font-size: 28px; padding: 16px 0; }
         .s17 .mine p { font-size: 24px; }
@@ -887,6 +890,7 @@
         <div class="photo side"><img src="images/consultation.jpg" alt="A doctor talks with a patient and a family member" style="object-position: 50% 50%"><span class="credit">Photo: Jonas Womack, U.S. Navy, public domain</span></div>
         <p class="big">Partner, <span class="y">Not Replacement.</span></p>
         <p class="after">AI helps doctors most when the doctor stays in charge.</p>
+        <a class="article" href="https://medium.com/@schan2_40140/partner-not-replacement-what-ai-can-and-cannot-do-in-healthcare-36304cd16d49?sharedUserId=schan2_40140" target="_blank" rel="noopener"><b>Read my article on Medium</b><span>medium.com/@schan2_40140</span></a>
     </section>
 
     <!-- === 17 WHAT I LEARNED (dark) === -->
@@ -1141,7 +1145,7 @@ class SlidePresentation {
     }
 
     setupPointerNav() {
-        document.querySelector('.deck-viewport').addEventListener('click', () => { this.next(); });
+        document.querySelector('.deck-viewport').addEventListener('click', (e) => { if (e.target.closest('a')) return; this.next(); });
         let x0 = 0;
         document.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
         document.addEventListener('touchend', (e) => {
