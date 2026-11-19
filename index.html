@@ -8,7 +8,7 @@
     <!-- Fonts: Pixelify Sans (pixel display), Sora (statements), IBM Plex Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Pixelify+Sans:wght@400..700&family=Sora:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jersey+10&family=Pixelify+Sans:wght@400..700&family=Sora:wght@500;600;700&display=swap">
 
     <style>
         /* ===========================================
@@ -29,6 +29,7 @@
             --muted-blue: #D9D9FF;  /* secondary text on blue */
 
             --f-pixel: 'Pixelify Sans', 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+            --f-num: 'Jersey 10', 'Sora', 'Segoe UI', Arial, sans-serif;
             --f-head: 'Sora', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             --f-body: 'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 
@@ -132,7 +133,7 @@
 
         /* Shared type roles */
         .num {
-            font-family: var(--f-pixel); font-weight: 700; line-height: 0.9; letter-spacing: -0.01em;
+            font-family: var(--f-num); font-weight: 400; line-height: 0.9; letter-spacing: 0.01em; font-size-adjust: none;
             color: var(--blue); white-space: nowrap;
         }
         .dark .num, .blue .num { color: var(--yellow); }
@@ -229,7 +230,7 @@
         .s2 .body, .s15 .body { right: 704px; }
         .s2 .src { right: 704px; }
         .s2 .hero { display: grid; grid-template-columns: 470px 1fr; gap: 40px; align-items: center; }
-        .s2 .hero .num { font-size: 250px; }
+        .s2 .hero .num { font-size: 295px; }
         .s2 .lead { font-size: 40px; line-height: 1.22; font-weight: 500; text-wrap: balance; }
         .s2 .lead + p { margin-top: 18px; font-size: 28px; }
         .s2 .statement { margin-top: 56px; }
@@ -283,7 +284,7 @@
         .s7 .body { top: 270px; }
         .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
         .tl-item .photo { position: relative; height: 200px; margin-bottom: 22px; }
-        .tl-item .num { font-size: 84px; margin-bottom: 12px; }
+        .tl-item .num { font-size: 99px; margin-bottom: 12px; }
         .tl-item h3 { font-family: var(--f-head); font-weight: 700; font-size: 32px; margin-bottom: 8px; letter-spacing: -0.01em; }
         .tl-item p { font-size: 27px; line-height: 1.36; }
         .s7 .statement { margin-top: 36px; font-size: 36px; }
@@ -293,7 +294,7 @@
            =========================================== */
         .s8 .body { top: 340px; }
         .s8 .split { display: grid; grid-template-columns: 81fr 19fr; }
-        .s8 .stat .num { font-size: 172px; }
+        .s8 .stat .num { font-size: 203px; }
         .s8 .stat.no .num { color: var(--ink); }
         .s8 .stat p { font-size: 32px; margin-top: 30px; max-width: 760px; }
         .s8 .stat.no { padding-left: 32px; }
@@ -313,7 +314,7 @@
         .s9 .photo { right: var(--pad-x); top: 320px; width: 600px; height: 400px; }
         .srows { display: flex; flex-direction: column; gap: 30px; }
         .srow { display: grid; grid-template-columns: 500px 1fr; gap: 36px; align-items: center; padding-top: 22px; border-top: 3px solid var(--ink); }
-        .srow .num { font-size: 112px; }
+        .srow .num { font-size: 132px; }
         .srow p { font-size: 30px; line-height: 1.36; }
         .s9 .label { margin-bottom: 14px; }
 
@@ -322,7 +323,7 @@
            =========================================== */
         .rows { display: flex; flex-direction: column; gap: 36px; }
         .row { display: grid; grid-template-columns: 480px 1fr; gap: 56px; align-items: end; }
-        .row .num { font-size: 128px; }
+        .row .num { font-size: 151px; }
         .row .label { margin-bottom: 26px; }
         .row p { font-size: 31px; line-height: 1.36; margin-bottom: 20px; }
         .rows + .statement { margin-top: 44px; }
@@ -332,7 +333,7 @@
            =========================================== */
         .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
         .three > div { background: rgba(17, 17, 17, 0.88); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); padding: 44px 44px 52px; min-height: 470px; }
-        .three .num { font-size: 110px; margin-bottom: 30px; }
+        .three .num { font-size: 130px; margin-bottom: 30px; }
         .three h3 { font-family: var(--f-head); font-weight: 700; font-size: 38px; margin-bottom: 16px; }
         .three p { font-size: 30px; line-height: 1.4; color: var(--muted-dark); }
 
@@ -346,7 +347,7 @@
         .s13 .portrait .photo { position: relative; width: 180px; height: 180px; }
         .s13 .portrait .credit { font-size: 11px; padding: 3px 6px; position: static; display: block; background: none; color: var(--muted); grid-column: 1 / -1; margin-top: -14px; }
         .s13 .quote { font-family: var(--f-head); font-weight: 700; font-size: 40px; line-height: 1.16; letter-spacing: -0.02em; margin-bottom: 20px; }
-        .s13 .num { font-size: 150px; margin-bottom: 24px; }
+        .s13 .num { font-size: 177px; margin-bottom: 24px; }
         .s13 p { font-size: 30px; line-height: 1.38; }
         .s13 .today { font-size: 34px; line-height: 1.35; }
 
@@ -356,7 +357,7 @@
         .s14 .body { top: 290px; right: 300px; }
         .s14 .cols { display: grid; grid-template-columns: 1fr 1.45fr; gap: 72px; }
         .s14 .cols > div { padding-top: 26px; border-top: 3px solid var(--yellow); }
-        .s14 .num { font-size: 132px; margin-bottom: 24px; }
+        .s14 .num { font-size: 156px; margin-bottom: 24px; }
         .s14 p { font-size: 30px; line-height: 1.38; }
         .s14 .statement { margin-top: 56px; font-size: 38px; }
 
@@ -365,7 +366,7 @@
            =========================================== */
         .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 48px; }
         .rule-item { display: grid; grid-template-columns: 76px 1fr; gap: 18px; align-items: start; padding: 22px 0; border-top: 3px solid var(--ink); }
-        .rule-item .num { font-size: 84px; }
+        .rule-item .num { font-size: 99px; }
         .rule-item p { font-family: var(--f-head); font-weight: 600; font-size: 33px; line-height: 1.22; letter-spacing: -0.01em; padding-top: 6px; }
         .rule-item p span { display: block; margin-top: 8px; font-family: var(--f-body); font-weight: 400; font-size: 27px; line-height: 1.36; letter-spacing: 0; color: var(--muted); }
         .s15 .final {
@@ -451,7 +452,7 @@
         .cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
         .cards2 .card { min-height: 0; padding: 48px 48px 56px; }
         .cards2 .card p { font-size: 36px; line-height: 1.38; }
-        .cards2 .hl { font-family: var(--f-pixel); font-weight: 700; font-size: 1.25em; color: var(--blue); }
+        .cards2 .hl { font-family: var(--f-num); font-weight: 400; font-size: 1.4em; letter-spacing: 0.01em; color: var(--blue); }
 
         /* Do doctors use AI: paraphrase line */
         .s8 .ama .quote { font-size: 46px; }
@@ -467,7 +468,7 @@
         .s12 .lead2 .tag { display: inline-block; padding: 2px 14px; margin: 0 16px 0 0; font-size: 26px; vertical-align: 3px; }
         .s12 .rows { gap: 24px; }
         .s12 .row { grid-template-columns: 420px 1fr; }
-        .s12 .row .num { font-size: 100px; }
+        .s12 .row .num { font-size: 118px; }
         .s12 .row .label { margin-bottom: 14px; }
         .s12 .rows + .statement { margin-top: 34px; padding-top: 26px; font-size: 36px; }
 
@@ -478,7 +479,7 @@
         .s14 .cols3 { display: grid; grid-template-columns: 1fr 1.5fr 0.9fr; gap: 52px; }
         .s14 .cols3 > div { padding-top: 26px; border-top: 3px solid var(--yellow); }
         .s14 .cols3 { margin-top: 40px; }
-        .s14 .cols3 .num { font-size: 96px; margin-bottom: 20px; }
+        .s14 .cols3 .num { font-size: 113px; margin-bottom: 20px; }
         .s14 .cols3 p { font-size: 32px; }
         .s14 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 
@@ -530,7 +531,7 @@
         .s6 .conn td.field { width: 320px; padding-right: 32px; font-size: 32px; }
 
         .s8 .split { grid-template-columns: 1fr 340px; }
-        .s8 .stat .num { font-size: 150px; }
+        .s8 .stat .num { font-size: 177px; }
         .s8 .stat p { font-size: 29px; margin-top: 26px; }
         .s8 .stat.no p { max-width: none; }
         .s8 .ama { grid-template-columns: 210px 1fr; gap: 28px; margin-top: 40px; }
@@ -540,7 +541,7 @@
 
         .s9 .side { top: 296px; width: 440px; height: 560px; }
         .s9 .srow { grid-template-columns: 410px 1fr; gap: 28px; }
-        .s9 .srow .num { font-size: 92px; }
+        .s9 .srow .num { font-size: 109px; }
         .s9 .srow p { font-size: 27px; }
         .s9 .srows { gap: 22px; }
         .s9 .statement { margin-top: 28px; font-size: 33px; }
@@ -557,7 +558,7 @@
 
         .s12 .lead2 { font-size: 31px; margin-bottom: 26px; }
         .s12 .row { grid-template-columns: 370px 1fr; gap: 36px; }
-        .s12 .row .num { font-size: 92px; }
+        .s12 .row .num { font-size: 109px; }
         .s12 .row p { font-size: 28px; }
         .s12 .rows + .statement { font-size: 31px; margin-top: 28px; padding-top: 22px; }
 
